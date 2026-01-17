@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player QA Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            background: #000;
+            color: #0f0;
+            padding: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #0f0;
+            background: #111;
+        }
+        .test-pass { color: #0f0; }
+        .test-fail { color: #f00; }
+        .test-warn { color: #ff0; }
+        .test-result {
+            margin: 5px 0;
+            padding: 5px;
+        }
+        button {
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { background: #0ff; }
+        #testResults {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Video Player QA Test Suite</h1>
+    <button onclick="runAllTests()">▶ Run All Tests</button>
+    <button onclick="testMainPlayer()">Test Main Player</button>
+    <button onclick="testBackupPlayer()">Test Backup Player</button>
+    <button onclick="clearResults()">Clear Results</button>
+    
+    <div class="test-section">
+        <h2>Test Results</h2>
+        <div id="testResults"></div>
+    </div>
+    
+    <script>
+        let testResults = [];
+        let passCount = 0;
+        let failCount = 0;
+        
+        function logTest(name, passed, message = '') {
+            const result = {
+                name,
+                passed,
+                message,
+                timestamp: new Date().toISOString()
+            };
+            testResults.push(result);
+            
+            const resultsDiv = document.getElementById('testResults');
+            const div = document.createElement('div');
+            div.className = `test-result ${passed ? 'test-pass' : 'test-fail'}`;
+            div.textContent = `${passed ? '✓' : '✗'} ${name}${message ? ': ' + message : ''}`;
+            resultsDiv.appendChild(div);
+            
+            if (passed) passCount++;
+            else failCount++;
+            
+            console.log(`[TEST] ${passed ? 'PASS' : 'FAIL'}: ${name}`, message || '');
+        }
+        
+        function clearResults() {
+            testResults = [];
+            passCount = 0;
+            failCount = 0;
+            document.getElementById('testResults').innerHTML = '';
+        }
+        
+        async function testMainPlayer() {
+            clearResults();
+            logTest('Starting Main Player Tests', true);
+            
+            // Test 1: Check if main player HTML exists
+            try {
+                const response = await fetch('video_player.html');
+                const html = await response.text();
+                logTest('Main player HTML accessible', response.ok, `Status: ${response.status}`);
+                
+                // Test 2: Check for common JavaScript errors
+                const hasPlayClip = html.includes('function playClip') || html.includes('window.playClip');
+                logTest('playClip function defined', hasPlayClip);
+                
+                const hasSwitchPlayer = html.includes('function switchPlayerMethod') || html.includes('window.switchPlayerMethod');
+                logTest('switchPlayerMethod function defined', hasSwitchPlayer);
+                
+                const hasFilterClips = html.includes('function filterClips') || html.includes('window.filterClips');
+                logTest('filterClips function defined', hasFilterClips);
+                
+                // Test 3: Check for MediaError usage
+                const mediaErrorCount = (html.match(/MediaError\./g) || []).length;
+                const hasMediaErrorFallback = html.includes('typeof MediaError') || html.includes('MEDIA_ERR_SRC_NOT_SUPPORTED');
+                logTest('MediaError usage has fallbacks', hasMediaErrorFallback, `${mediaErrorCount} MediaError references found`);
+                
+                // Test 4: Check for error handlers
+                const hasGlobalErrorHandler = html.includes('addEventListener(\'error\'') || html.includes('addEventListener("error"');
+                logTest('Global error handler present', hasGlobalErrorHandler);
+                
+                const hasUnhandledRejection = html.includes('unhandledrejection');
+                logTest('Unhandled rejection handler present', hasUnhandledRejection);
+                
+                // Test 5: Check for try-catch blocks
+                const tryCatchCount = (html.match(/try\s*{/g) || []).length;
+                logTest('Error handling (try-catch blocks)', tryCatchCount > 5, `${tryCatchCount} try-catch blocks found`);
+                
+            } catch (e) {
+                logTest('Main player HTML fetch', false, e.message);
+            }
+            
+            // Test 6: Check if video files exist
+            const testVideo = 'clips/mistake_unknown_0.mp4';
+            try {
+                const response = await fetch(testVideo, { method: 'HEAD' });
+                logTest('Test video file accessible', response.ok, `Status: ${response.status}, Content-Type: ${response.headers.get('Content-Type')}`);
+            } catch (e) {
+                logTest('Test video file accessible', false, e.message);
+            }
+            
+            showSummary();
+        }
+        
+        async function testBackupPlayer() {
+            clearResults();
+            logTest('Starting Backup Player Tests', true);
+            
+            try {
+                const response = await fetch('video_player_backup.html');
+                const html = await response.text();
+                logTest('Backup player HTML accessible', response.ok, `Status: ${response.status}`);
+                
+                // Check for class-based approach
+                const hasClass = html.includes('class BackupVideoPlayer');
+                logTest('Backup player uses class-based approach', hasClass);
+                
+                // Check for canvas approach
+                const hasCanvas = html.includes('<canvas') || html.includes('createElement(\'canvas\')');
+                logTest('Backup player has canvas support', hasCanvas);
+                
+                // Check for GIF generation
+                const hasGIF = html.includes('generateGIF') || html.includes('gif');
+                logTest('Backup player has GIF generation', hasGIF);
+                
+                // Check for command interface
+                const hasCommand = html.includes('executeCommand') || html.includes('command');
+                logTest('Backup player has command interface', hasCommand);
+                
+            } catch (e) {
+                logTest('Backup player HTML fetch', false, e.message);
+            }
+            
+            showSummary();
+        }
+        
+        async function runAllTests() {
+            clearResults();
+            logTest('=== Running Complete Test Suite ===', true);
+            
+            await testMainPlayer();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            await testBackupPlayer();
+            
+            // Additional integration tests
+            logTest('=== Integration Tests ===', true);
+            
+            // Test metadata.json
+            try {
+                const response = await fetch('metadata.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    logTest('metadata.json accessible and valid', true, `${data.clips?.length || 0} clips found`);
+                } else {
+                    logTest('metadata.json accessible', false, `Status: ${response.status}`);
+                }
+            } catch (e) {
+                logTest('metadata.json accessible', false, e.message);
+            }
+            
+            showSummary();
+        }
+        
+        function showSummary() {
+            const resultsDiv = document.getElementById('testResults');
+            const summary = document.createElement('div');
+            summary.className = 'test-result';
+            summary.style.marginTop = '20px';
+            summary.style.padding = '10px';
+            summary.style.border = '2px solid #0f0';
+            summary.style.fontWeight = 'bold';
+            summary.innerHTML = `
+                <div>Total Tests: ${testResults.length}</div>
+                <div class="test-pass">Passed: ${passCount}</div>
+                <div class="test-fail">Failed: ${failCount}</div>
+                <div>Success Rate: ${((passCount / testResults.length) * 100).toFixed(1)}%</div>
+            `;
+            resultsDiv.appendChild(summary);
+        }
+        
+        // Auto-run on load
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                logTest('Test suite loaded', true);
+                logTest('Ready to run tests. Click "Run All Tests" to begin.', true);
+            }, 100);
+        });
+    </script>
+</body>
+</html>

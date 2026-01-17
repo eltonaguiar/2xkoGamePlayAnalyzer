@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Test</title>
+</head>
+<body>
+    <h1>Video File Test</h1>
+    <p>Testing if video files are accessible:</p>
+    <ul>
+        <li><a href="clips/mistake_unknown_0.mp4" target="_blank">clips/mistake_unknown_0.mp4</a></li>
+        <li><a href="clips/mistake_unknown_1.mp4" target="_blank">clips/mistake_unknown_1.mp4</a></li>
+    </ul>
+    
+    <h2>Direct Video Player Test:</h2>
+    <video controls width="800">
+        <source src="clips/mistake_unknown_0.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <script>
+        // Test if files are accessible
+        async function testFile(url) {
+            try {
+                const response = await fetch(url, { method: 'HEAD' });
+                console.log(`${url}: ${response.status} ${response.statusText}`);
+                if (response.ok) {
+                    console.log(`  Content-Type: ${response.headers.get('Content-Type')}`);
+                    console.log(`  Content-Length: ${response.headers.get('Content-Length')}`);
+                    return true;
+                }
+                return false;
+            } catch (error) {
+                console.error(`${url}: Error - ${error.message}`);
+                return false;
+            }
+        }
+        
+        // Test both files
+        testFile('clips/mistake_unknown_0.mp4');
+        testFile('clips/mistake_unknown_1.mp4');
+        
+        // Log current location
+        console.log('Current page URL:', window.location.href);
+        console.log('Base URL:', window.location.origin);
+    </script>
+</body>
+</html>

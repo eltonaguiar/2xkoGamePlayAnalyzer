@@ -1,0 +1,1580 @@
+{
+  "video_info": {
+    "path": "C:\\Users\\zerou\\Desktop\\2xko_blitzvsblitzjuggernaut_Recording 2026-01-17 154457.mp4",
+    "duration": 156.9,
+    "fps": 30,
+    "resolution": "1920x1080"
+  },
+  "matchup": {
+    "type": "mirror",
+    "character1": "Blitzcrank",
+    "character2": "Blitzcrank",
+    "character_info": {
+      "name": "Blitzcrank",
+      "archetype": "Grappler",
+      "health": 1050,
+      "playstyle": "Point character with risky but rewarding gameplan. Get close, then hit or grab.",
+      "strengths": [
+        "Rocket Grab forces opponent close",
+        "Command grab (Garbage Collection) for mix-ups",
+        "Excellent assist character",
+        "Steam Steam enhanced specials",
+        "Air Purifier assist provides restand"
+      ],
+      "weaknesses": [
+        "Risky neutral",
+        "Slow dash speed",
+        "Committal normals",
+        "Bad defense",
+        "Dependency on 50-50 mix-ups"
+      ]
+    }
+  },
+  "player1_analysis": {
+    "stats": {
+      "unsafe_moves_used": 1,
+      "grabs_landed": 0,
+      "grabs_whiffed": 0,
+      "blocked_attacks": 0,
+      "punish_opportunities_missed": 1
+    },
+    "mistakes": [
+      {
+        "timestamp": 117.66666666666667,
+        "type": "unsafe_special",
+        "move": "5S1",
+        "severity": "medium",
+        "description": "player1 used Rocket Grab (5S1) which can be easily punished on whiff",
+        "suggestion": "Rocket Grab is risky in neutral. Consider using it after conditioning opponent or with assist cover."
+      }
+    ],
+    "opportunities": [
+      {
+        "timestamp": 39.2,
+        "type": "missed_punish",
+        "description": "player1 had punish opportunity after player2's unsafe move but didn't take it",
+        "suggestion": "When opponent uses unsafe move on block, use fastest normal (5L, 8f startup) to punish"
+      }
+    ],
+    "playstyle": "Balanced grappler - mixes offense and defense appropriately",
+    "pros": [
+      "Good move selection - avoids overly risky options"
+    ],
+    "cons": [
+      "Uses unsafe moves (1 instances) without proper setup or assist cover",
+      "Missed 1 punish opportunities - could improve reaction to unsafe moves",
+      "Uses risky specials (Rocket Grab) in neutral without conditioning"
+    ]
+  },
+  "player2_analysis": {
+    "stats": {
+      "unsafe_moves_used": 0,
+      "grabs_landed": 0,
+      "grabs_whiffed": 0,
+      "blocked_attacks": 0,
+      "punish_opportunities_missed": 0
+    },
+    "mistakes": [],
+    "opportunities": [],
+    "playstyle": "Balanced grappler - mixes offense and defense appropriately",
+    "pros": [
+      "Good move selection - avoids overly risky options"
+    ],
+    "cons": [
+      "Could work on optimizing blockstrings and mix-ups"
+    ]
+  },
+  "key_events": [
+    {
+      "timestamp": 0.06666666666666667,
+      "frame": 2,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 1.2,
+      "frame": 36,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 1.6666666666666667,
+      "frame": 50,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 3.3333333333333335,
+      "frame": 100,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 3.7333333333333334,
+      "frame": 112,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 4.4,
+      "frame": 132,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 5.133333333333334,
+      "frame": 154,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 5.533333333333333,
+      "frame": 166,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 6.6,
+      "frame": 198,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 7.666666666666667,
+      "frame": 230,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 7.733333333333333,
+      "frame": 232,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 8.933333333333334,
+      "frame": 268,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 10.0,
+      "frame": 300,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 11.2,
+      "frame": 336,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 12.333333333333334,
+      "frame": 370,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 13.4,
+      "frame": 402,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 13.733333333333333,
+      "frame": 412,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 14.866666666666667,
+      "frame": 446,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 15.266666666666667,
+      "frame": 458,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 16.266666666666666,
+      "frame": 488,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 16.533333333333335,
+      "frame": 496,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 17.333333333333332,
+      "frame": 520,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 17.733333333333334,
+      "frame": 532,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 18.666666666666668,
+      "frame": 560,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 18.866666666666667,
+      "frame": 566,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 20.0,
+      "frame": 600,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 20.266666666666666,
+      "frame": 608,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 21.2,
+      "frame": 636,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 21.6,
+      "frame": 648,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 22.333333333333332,
+      "frame": 670,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 22.866666666666667,
+      "frame": 686,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 23.4,
+      "frame": 702,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 24.066666666666666,
+      "frame": 722,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 25.133333333333333,
+      "frame": 754,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 25.2,
+      "frame": 756,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 26.2,
+      "frame": 786,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 27.4,
+      "frame": 822,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 27.6,
+      "frame": 828,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 28.466666666666665,
+      "frame": 854,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 29.533333333333335,
+      "frame": 886,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 30.0,
+      "frame": 900,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 30.6,
+      "frame": 918,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 31.066666666666666,
+      "frame": 932,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 32.13333333333333,
+      "frame": 964,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 33.2,
+      "frame": 996,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 33.53333333333333,
+      "frame": 1006,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 34.6,
+      "frame": 1038,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 34.733333333333334,
+      "frame": 1042,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 35.666666666666664,
+      "frame": 1070,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 36.0,
+      "frame": 1080,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 36.733333333333334,
+      "frame": 1102,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 37.8,
+      "frame": 1134,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 38.2,
+      "frame": 1146,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 39.06666666666667,
+      "frame": 1172,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 39.266666666666666,
+      "frame": 1178,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 40.333333333333336,
+      "frame": 1210,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 40.93333333333333,
+      "frame": 1228,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 41.4,
+      "frame": 1242,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 42.06666666666667,
+      "frame": 1262,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 42.8,
+      "frame": 1284,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 43.93333333333333,
+      "frame": 1318,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 44.46666666666667,
+      "frame": 1334,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 45.13333333333333,
+      "frame": 1354,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 46.266666666666666,
+      "frame": 1388,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 46.333333333333336,
+      "frame": 1390,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 47.666666666666664,
+      "frame": 1430,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 47.733333333333334,
+      "frame": 1432,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 48.86666666666667,
+      "frame": 1466,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 49.266666666666666,
+      "frame": 1478,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 50.2,
+      "frame": 1506,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 50.46666666666667,
+      "frame": 1514,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 51.46666666666667,
+      "frame": 1544,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 52.13333333333333,
+      "frame": 1564,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 52.86666666666667,
+      "frame": 1586,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 53.6,
+      "frame": 1608,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 54.666666666666664,
+      "frame": 1640,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 55.0,
+      "frame": 1650,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 55.733333333333334,
+      "frame": 1672,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 56.06666666666667,
+      "frame": 1682,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 56.8,
+      "frame": 1704,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 57.266666666666666,
+      "frame": 1718,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 57.93333333333333,
+      "frame": 1738,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 58.333333333333336,
+      "frame": 1750,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 59.4,
+      "frame": 1782,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 59.666666666666664,
+      "frame": 1790,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 60.733333333333334,
+      "frame": 1822,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 61.6,
+      "frame": 1848,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 61.93333333333333,
+      "frame": 1858,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 63.0,
+      "frame": 1890,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 64.06666666666666,
+      "frame": 1922,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 65.13333333333334,
+      "frame": 1954,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 66.2,
+      "frame": 1986,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 67.26666666666667,
+      "frame": 2018,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 67.86666666666666,
+      "frame": 2036,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 68.33333333333333,
+      "frame": 2050,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 69.13333333333334,
+      "frame": 2074,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 69.46666666666667,
+      "frame": 2084,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 70.33333333333333,
+      "frame": 2110,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 70.53333333333333,
+      "frame": 2116,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 71.93333333333334,
+      "frame": 2158,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 72.0,
+      "frame": 2160,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 73.06666666666666,
+      "frame": 2192,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 74.0,
+      "frame": 2220,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 74.13333333333334,
+      "frame": 2224,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 75.2,
+      "frame": 2256,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 75.26666666666667,
+      "frame": 2258,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 76.26666666666667,
+      "frame": 2288,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 76.46666666666667,
+      "frame": 2294,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 77.33333333333333,
+      "frame": 2320,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 77.66666666666667,
+      "frame": 2330,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 78.4,
+      "frame": 2352,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 78.8,
+      "frame": 2364,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 79.6,
+      "frame": 2388,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 79.86666666666666,
+      "frame": 2396,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 80.73333333333333,
+      "frame": 2422,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 82.4,
+      "frame": 2472,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 83.66666666666667,
+      "frame": 2510,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 84.26666666666667,
+      "frame": 2528,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 84.8,
+      "frame": 2544,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 85.4,
+      "frame": 2562,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 86.26666666666667,
+      "frame": 2588,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 86.53333333333333,
+      "frame": 2596,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 87.33333333333333,
+      "frame": 2620,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 87.66666666666667,
+      "frame": 2630,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 88.86666666666666,
+      "frame": 2666,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 89.26666666666667,
+      "frame": 2678,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 90.33333333333333,
+      "frame": 2710,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 91.33333333333333,
+      "frame": 2740,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 91.86666666666666,
+      "frame": 2756,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 92.86666666666666,
+      "frame": 2786,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 93.93333333333334,
+      "frame": 2818,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 94.4,
+      "frame": 2832,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 95.13333333333334,
+      "frame": 2854,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 95.53333333333333,
+      "frame": 2866,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 96.2,
+      "frame": 2886,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 97.4,
+      "frame": 2922,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 97.73333333333333,
+      "frame": 2932,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 98.8,
+      "frame": 2964,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 98.86666666666666,
+      "frame": 2966,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 100.66666666666667,
+      "frame": 3020,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 101.73333333333333,
+      "frame": 3052,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 102.8,
+      "frame": 3084,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 102.93333333333334,
+      "frame": 3088,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 104.06666666666666,
+      "frame": 3122,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 105.4,
+      "frame": 3162,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 105.66666666666667,
+      "frame": 3170,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 106.53333333333333,
+      "frame": 3196,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 107.66666666666667,
+      "frame": 3230,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 110.06666666666666,
+      "frame": 3302,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 110.66666666666667,
+      "frame": 3320,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 111.33333333333333,
+      "frame": 3340,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 111.86666666666666,
+      "frame": 3356,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 112.46666666666667,
+      "frame": 3374,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 113.33333333333333,
+      "frame": 3400,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 113.66666666666667,
+      "frame": 3410,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 114.53333333333333,
+      "frame": 3436,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 115.66666666666667,
+      "frame": 3470,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 116.26666666666667,
+      "frame": 3488,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 116.73333333333333,
+      "frame": 3502,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 117.86666666666666,
+      "frame": 3536,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 118.2,
+      "frame": 3546,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 118.93333333333334,
+      "frame": 3568,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 119.4,
+      "frame": 3582,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 120.0,
+      "frame": 3600,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 120.53333333333333,
+      "frame": 3616,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 121.6,
+      "frame": 3648,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 121.93333333333334,
+      "frame": 3658,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 122.66666666666667,
+      "frame": 3680,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 123.06666666666666,
+      "frame": 3692,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 123.8,
+      "frame": 3714,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 124.13333333333334,
+      "frame": 3724,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 125.2,
+      "frame": 3756,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 125.6,
+      "frame": 3768,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 126.4,
+      "frame": 3792,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 127.06666666666666,
+      "frame": 3812,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 127.93333333333334,
+      "frame": 3838,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 129.2,
+      "frame": 3876,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 130.26666666666668,
+      "frame": 3908,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 131.66666666666666,
+      "frame": 3950,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 132.73333333333332,
+      "frame": 3982,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 133.2,
+      "frame": 3996,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 133.8,
+      "frame": 4014,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 134.86666666666667,
+      "frame": 4046,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 135.93333333333334,
+      "frame": 4078,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 137.0,
+      "frame": 4110,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 138.26666666666668,
+      "frame": 4148,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 138.33333333333334,
+      "frame": 4150,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 139.73333333333332,
+      "frame": 4192,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 140.13333333333333,
+      "frame": 4204,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 141.2,
+      "frame": 4236,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 141.6,
+      "frame": 4248,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 142.66666666666666,
+      "frame": 4280,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 143.6,
+      "frame": 4308,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 143.8,
+      "frame": 4314,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 144.73333333333332,
+      "frame": 4342,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 145.86666666666667,
+      "frame": 4376,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 146.13333333333333,
+      "frame": 4384,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 147.4,
+      "frame": 4422,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 148.46666666666667,
+      "frame": 4454,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 148.6,
+      "frame": 4458,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 149.66666666666666,
+      "frame": 4490,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 150.06666666666666,
+      "frame": 4502,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 150.73333333333332,
+      "frame": 4522,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 151.4,
+      "frame": 4542,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 151.8,
+      "frame": 4554,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 153.0,
+      "frame": 4590,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 153.13333333333333,
+      "frame": 4594,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 154.2,
+      "frame": 4626,
+      "type": "hit_or_block",
+      "player": "player1",
+      "description": "player1 interaction detected"
+    },
+    {
+      "timestamp": 154.46666666666667,
+      "frame": 4634,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 155.53333333333333,
+      "frame": 4666,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 156.6,
+      "frame": 4698,
+      "type": "hit_or_block",
+      "player": "player2",
+      "description": "player2 interaction detected"
+    },
+    {
+      "timestamp": 117.66666666666667,
+      "frame": 3530,
+      "type": "unsafe_special",
+      "player": "player1",
+      "move": "5S1",
+      "description": "player1 used unsafe Rocket Grab"
+    }
+  ],
+  "recommendations": [
+    "Both players should work on safe blockstrings",
+    "Consider using assists to cover unsafe moves",
+    "Practice Steam Steam management for enhanced specials",
+    "Work on anti-air defense against Air Purifier"
+  ]
+}
