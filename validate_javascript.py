@@ -38,6 +38,10 @@ class JavaScriptValidator:
             script_content = match.group(1)
             # Skip external scripts (src attribute)
             if not re.search(r'src\s*=', match.group(0), re.IGNORECASE):
+                # Skip JSON-LD and other non-JavaScript script types
+                script_tag = match.group(0)
+                if re.search(r'type\s*=\s*["\']application/(ld\+json|json)', script_tag, re.IGNORECASE):
+                    continue
                 start_pos = match.start()
                 line_number = html_content[:start_pos].count('\n') + 1
                 scripts.append((script_content, line_number))
