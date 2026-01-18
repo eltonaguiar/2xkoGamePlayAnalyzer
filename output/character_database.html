@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Complete 2XKO character database with frame data, move comparisons, combos, and safety analysis">
+    <meta name="keywords" content="2XKO, fighting game, frame data, character database, combos, move comparison">
+    <meta name="author" content="2XKO Gameplay Analyzer">
     <title>2XKO Character Database - Move Comparison</title>
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebApplication","name":"2XKO Character Database","description":"Complete 2XKO character database with frame data, move comparisons, combos, and safety analysis","applicationCategory":"GameApplication","operatingSystem":"Web Browser"}
+    </script>
     <style>
         * {
             margin: 0;
@@ -527,6 +532,33 @@
             }
         }
         
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            .tabs {
+                display: none;
+            }
+            .tab-content {
+                display: block !important;
+            }
+            .filters {
+                display: none;
+            }
+            button, .export-btn {
+                display: none;
+            }
+            a {
+                text-decoration: underline;
+                color: #000;
+            }
+        }
+        
         @media (max-width: 480px) {
             h1 {
                 font-size: 1.5em;
@@ -556,12 +588,13 @@
         </header>
         
         <div class="tabs" role="tablist" aria-label="Main navigation tabs">
-            <button class="tab active" onclick="showTab('overview')" role="tab" aria-selected="true" aria-controls="overview-tab" id="tab-overview" tabindex="0">Character Overview</button>
-            <button class="tab" onclick="showTab('moves')" role="tab" aria-selected="false" aria-controls="moves-tab" id="tab-moves" tabindex="0">Move Comparison</button>
-            <button class="tab" onclick="showTab('combos')" role="tab" aria-selected="false" aria-controls="combos-tab" id="tab-combos" tabindex="0">BnB Combos</button>
-            <button class="tab" onclick="showTab('fastest')" role="tab" aria-selected="false" aria-controls="fastest-tab" id="tab-fastest" tabindex="0">Fastest Moves</button>
-            <button class="tab" onclick="showTab('safest')" role="tab" aria-selected="false" aria-controls="safest-tab" id="tab-safest" tabindex="0">Safest Moves</button>
-            <button class="tab" onclick="showTab('efficiency')" role="tab" aria-selected="false" aria-controls="efficiency-tab" id="tab-efficiency" tabindex="0">Move Efficiency</button>
+            <button class="tab active" onclick="showTab('overview')" role="tab" aria-selected="true" aria-controls="overview-tab" id="tab-overview" tabindex="0" title="Character Overview (Ctrl+1)">Character Overview</button>
+            <button class="tab" onclick="showTab('moves')" role="tab" aria-selected="false" aria-controls="moves-tab" id="tab-moves" tabindex="0" title="Move Comparison (Ctrl+2)">Move Comparison</button>
+            <button class="tab" onclick="showTab('combos')" role="tab" aria-selected="false" aria-controls="combos-tab" id="tab-combos" tabindex="0" title="BnB Combos (Ctrl+3)">BnB Combos</button>
+            <button class="tab" onclick="showTab('fastest')" role="tab" aria-selected="false" aria-controls="fastest-tab" id="tab-fastest" tabindex="0" title="Fastest Moves (Ctrl+4)">Fastest Moves</button>
+            <button class="tab" onclick="showTab('safest')" role="tab" aria-selected="false" aria-controls="safest-tab" id="tab-safest" tabindex="0" title="Safest Moves (Ctrl+5)">Safest Moves</button>
+            <button class="tab" onclick="showTab('efficiency')" role="tab" aria-selected="false" aria-controls="efficiency-tab" id="tab-efficiency" tabindex="0" title="Move Efficiency (Ctrl+6)">Move Efficiency</button>
+            <button onclick="showKeyboardHelp()" style="margin-left: auto; padding: 8px 16px; background: #6b7280; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 0.9em;" title="Show keyboard shortcuts (?)">⌨️ Help</button>
         </div>
         
         <div class="content">
@@ -796,7 +829,7 @@
                 // Show selected tab
                 const targetTab = document.getElementById(tabName + '-tab');
                 if (!targetTab) {
-                    console.error(`Tab ${tabName}-tab not found`);
+                    debugLog('error', `Tab ${tabName}-tab not found`);
                     return;
                 }
                 targetTab.classList.add('active');
@@ -851,7 +884,7 @@
                         console.warn(`Unknown tab: ${tabName}`);
                 }
             } catch (error) {
-                console.error('Error switching tabs:', error);
+                debugLog('error', 'Error switching tabs:', error);
             }
         }
         
@@ -929,7 +962,7 @@
         function loadMoves() {
             const container = document.getElementById('moves-container');
             if (!container) {
-                console.error('moves-container not found');
+                debugLog('error', 'moves-container not found');
                 return;
             }
             
@@ -1415,7 +1448,7 @@
         window.loadSafest = function loadSafest() {
             const container = document.getElementById('safest-container');
             if (!container) {
-                console.error('safest-container not found');
+                debugLog('error', 'safest-container not found');
                 return;
             }
             
@@ -1829,7 +1862,7 @@
                 document.body.removeChild(link);
                 URL.revokeObjectURL(url);
             } catch (error) {
-                console.error('Error exporting data:', error);
+                debugLog('error', 'Error exporting data:', error);
                 alert('Failed to export data. Check console for details.');
             }
         }
@@ -1855,6 +1888,38 @@
             }
         }
         
+        // Keyboard shortcuts help modal
+        window.showKeyboardHelp = function showKeyboardHelp() {
+            const modal = document.createElement('div');
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; display: flex; align-items: center; justify-content: center;';
+            modal.innerHTML = '<div style="background: white; padding: 30px; border-radius: 10px; max-width: 500px; max-height: 80vh; overflow-y: auto;"><h2 style="margin-bottom: 20px; color: #1e3c72;">Keyboard Shortcuts</h2><div style="line-height: 2;"><p><strong>Ctrl+1:</strong> Character Overview</p><p><strong>Ctrl+2:</strong> Move Comparison</p><p><strong>Ctrl+3:</strong> BnB Combos</p><p><strong>Ctrl+4:</strong> Fastest Moves</p><p><strong>Ctrl+5:</strong> Safest Moves</p><p><strong>Ctrl+6:</strong> Move Efficiency</p><p><strong>Arrow Keys:</strong> Navigate between tabs</p><p><strong>Home:</strong> Go to first tab</p><p><strong>End:</strong> Go to last tab</p><p><strong>? or H:</strong> Show this help</p></div><button onclick="this.closest(\'div\').parentElement.remove()" style="margin-top: 20px; padding: 10px 20px; background: #1e3c72; color: white; border: none; border-radius: 5px; cursor: pointer;">Close</button></div>';
+            document.body.appendChild(modal);
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        };
+        
+        // Add ? key handler for help
+        document.addEventListener('keydown', function(e) {
+            if ((e.key === '?' || e.key === 'h') && !e.ctrlKey && !e.metaKey) {
+                const activeEl = document.activeElement;
+                if (activeEl && activeEl.tagName !== 'INPUT' && activeEl.tagName !== 'TEXTAREA') {
+                    e.preventDefault();
+                    if (typeof showKeyboardHelp === 'function') {
+                        showKeyboardHelp();
+                    }
+                }
+            }
+        });
+        
+        // Initialize UI on load
+        window.addEventListener('DOMContentLoaded', function() {
+            if (typeof loadDatabase === 'function') {
+                loadDatabase();
+            }
+        });
     </script>
 </body>
 </html>
