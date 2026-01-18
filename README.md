@@ -2,6 +2,14 @@
 
 ⚠️ **WARNING: This is a broken draft proof of concept. Do not use in production.**
 
+Samples:
+https://ibb.co/album/XfKhGj
+<img width="1024" height="892" alt="image" src="https://github.com/user-attachments/assets/4e72608c-b29c-4ce8-aedb-6803658f05f2" />
+
+<img width="1375" height="608" alt="image" src="https://github.com/user-attachments/assets/2d7e0dcd-8e6b-48ec-954f-3f57c76596d6" />
+<img width="1595" height="762" alt="image" src="https://github.com/user-attachments/assets/fdd601f2-4972-48fc-8955-af331f392945" />
+<img width="1005" height="917" alt="image" src="https://github.com/user-attachments/assets/745187f8-0417-4eda-8c84-049d1608ce72" />
+
 This project is an experimental, incomplete prototype for analyzing 2XKO fighting game gameplay videos. Many features are non-functional, video playback has known issues, and the codebase contains bugs and incomplete implementations.
 
 ## ⚠️ Current Status: BROKEN DRAFT
