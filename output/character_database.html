@@ -983,16 +983,22 @@
             
             // Gather all moves from characterData
             if (characterData && Object.keys(characterData).length > 0) {
-                Object.keys(characterData).forEach(charName => {
+                const charKeys = Object.keys(characterData);
+                for (let i = 0; i < charKeys.length; i++) {
+                    const charName = charKeys[i];
                     if (selectedChar === '' || selectedChar === charName) {
                         const char = characterData[charName];
                         if (char && char.moves && Array.isArray(char.moves)) {
-                            char.moves.forEach(move => {
-                                allMoves.push({...move, character: charName});
-                            });
+                            const moves = char.moves;
+                            for (let j = 0; j < moves.length; j++) {
+                                const move = moves[j];
+                                if (move && typeof move === 'object') {
+                                    allMoves.push({...move, character: charName});
+                                }
+                            }
                         }
                     }
-                });
+                }
             }
             
             // Filter
