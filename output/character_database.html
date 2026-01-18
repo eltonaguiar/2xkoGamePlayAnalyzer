@@ -711,7 +711,7 @@
         let databaseData = null;
         
         // Load database from JSON
-        async function loadDatabase() {
+        window.loadDatabase = async function loadDatabase() {
             try {
                 const response = await fetch('character_database.json');
                 databaseData = await response.json();
@@ -1129,7 +1129,7 @@
         });
         
         // Load combos
-        function loadCombos() {
+        window.loadCombos = function loadCombos() {
             const container = document.getElementById('combos-container');
             const comboCharEl = document.getElementById('combo-character');
             const difficultyEl = document.getElementById('combo-difficulty');
@@ -1391,7 +1391,7 @@
             }
         }
         
-        function loadSafest() {
+        window.loadSafest = function loadSafest() {
             const container = document.getElementById('safest-container');
             if (!container) {
                 console.error('safest-container not found');
@@ -1721,7 +1721,7 @@
             container.innerHTML = html;
         }
         
-        function sortCharacters() {
+        window.sortCharacters = function sortCharacters() {
             const sortSelect = document.getElementById('sort-characters');
             if (!sortSelect) return;
             
@@ -1771,7 +1771,7 @@
         }
         
         // Export data functionality
-        function exportCharacterData(characterName) {
+        window.exportCharacterData = function exportCharacterData(characterName) {
             try {
                 if (!characterData || !characterData[characterName]) {
                     alert('Character data not available');
@@ -1826,12 +1826,6 @@
             }
         }
         
-        // Call after character overview loads
-        const originalLoadCharacterOverview = loadCharacterOverview;
-        loadCharacterOverview = function() {
-            originalLoadCharacterOverview();
-            setTimeout(addExportButtons, 100);
-        };
     </script>
 </body>
 </html>
