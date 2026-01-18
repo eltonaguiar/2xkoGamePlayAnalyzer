@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Complete 2XKO character database with frame data, move comparisons, combos, and safety analysis">
     <title>2XKO Character Database - Move Comparison</title>
     <style>
         * {
@@ -404,6 +405,25 @@
             text-align: center;
             padding: 40px;
             color: #666;
+            position: relative;
+        }
+        
+        .loading::before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1e3c72;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         .empty-state {
@@ -418,21 +438,107 @@
         }
         
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                border-radius: 10px;
+            }
+            
+            header {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            .subtitle {
+                font-size: 0.95em;
+            }
+            
+            .tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .tab {
+                padding: 12px 20px;
+                font-size: 0.9em;
+                white-space: nowrap;
+                min-width: fit-content;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
             .character-grid {
                 grid-template-columns: 1fr;
+                gap: 15px;
             }
             
             .filters {
                 flex-direction: column;
                 align-items: stretch;
+                gap: 10px;
+            }
+            
+            .filter-group {
+                width: 100%;
+            }
+            
+            .filter-group label {
+                display: block;
+                margin-bottom: 5px;
+            }
+            
+            .filter-group select {
+                width: 100%;
             }
             
             .move-table {
-                font-size: 0.85em;
+                font-size: 0.8em;
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .move-table thead,
+            .move-table tbody,
+            .move-table tr {
+                display: block;
             }
             
             .move-table th, .move-table td {
-                padding: 8px;
+                padding: 6px 4px;
+                display: inline-block;
+                min-width: 80px;
+            }
+            
+            .character-card {
+                padding: 15px;
+            }
+            
+            .combo-card {
+                padding: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .tab {
+                padding: 10px 15px;
+                font-size: 0.85em;
+            }
+            
+            .content {
+                padding: 10px;
             }
         }
     </style>
@@ -449,23 +555,23 @@
             </div>
         </header>
         
-        <div class="tabs">
-            <button class="tab active" onclick="showTab('overview')">Character Overview</button>
-            <button class="tab" onclick="showTab('moves')">Move Comparison</button>
-            <button class="tab" onclick="showTab('combos')">BnB Combos</button>
-            <button class="tab" onclick="showTab('fastest')">Fastest Moves</button>
-            <button class="tab" onclick="showTab('safest')">Safest Moves</button>
-            <button class="tab" onclick="showTab('efficiency')">Move Efficiency</button>
+        <div class="tabs" role="tablist" aria-label="Main navigation tabs">
+            <button class="tab active" onclick="showTab('overview')" role="tab" aria-selected="true" aria-controls="overview-tab" id="tab-overview" tabindex="0">Character Overview</button>
+            <button class="tab" onclick="showTab('moves')" role="tab" aria-selected="false" aria-controls="moves-tab" id="tab-moves" tabindex="0">Move Comparison</button>
+            <button class="tab" onclick="showTab('combos')" role="tab" aria-selected="false" aria-controls="combos-tab" id="tab-combos" tabindex="0">BnB Combos</button>
+            <button class="tab" onclick="showTab('fastest')" role="tab" aria-selected="false" aria-controls="fastest-tab" id="tab-fastest" tabindex="0">Fastest Moves</button>
+            <button class="tab" onclick="showTab('safest')" role="tab" aria-selected="false" aria-controls="safest-tab" id="tab-safest" tabindex="0">Safest Moves</button>
+            <button class="tab" onclick="showTab('efficiency')" role="tab" aria-selected="false" aria-controls="efficiency-tab" id="tab-efficiency" tabindex="0">Move Efficiency</button>
         </div>
         
         <div class="content">
             <!-- Overview Tab -->
-            <div id="overview-tab" class="tab-content active">
+            <div id="overview-tab" class="tab-content active" role="tabpanel" aria-labelledby="tab-overview">
                 <h2>Character Statistics</h2>
                 <div class="filters">
                     <div class="filter-group">
-                        <label>Sort By:</label>
-                        <select id="sort-characters" onchange="sortCharacters()">
+                        <label for="sort-characters">Sort By:</label>
+                        <select id="sort-characters" onchange="sortCharacters()" aria-label="Sort characters">
                             <option value="name">Name</option>
                             <option value="health">Health</option>
                             <option value="archetype">Archetype</option>
@@ -514,7 +620,7 @@
             </div>
             
             <!-- Combos Tab -->
-            <div id="combos-tab" class="tab-content">
+            <div id="combos-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-combos">
                 <h2>BnB Combos</h2>
                 <div class="filters">
                     <div class="filter-group">
@@ -559,12 +665,12 @@
             </div>
             
             <!-- Safest Moves Tab -->
-            <div id="safest-tab" class="tab-content">
+            <div id="safest-tab" class="tab-content" role="tabpanel" aria-labelledby="tab-safest">
                 <h2>Move Safety Analysis</h2>
                 <div class="filters" style="margin-bottom: 20px;">
                     <div class="filter-group">
-                        <label>View:</label>
-                        <select id="safety-view" onchange="loadSafest()">
+                        <label for="safety-view">View:</label>
+                        <select id="safety-view" onchange="loadSafest()" aria-label="Select safety analysis view">
                             <option value="safest">Safest Moves (Best on Block)</option>
                             <option value="dangerous">Dangerous Moves (Need Assist)</option>
                             <option value="both">Both (Safest & Dangerous)</option>
@@ -617,13 +723,14 @@
                         const charName = charKeys[i];
                         const char = databaseData.characters[charName];
                         if (char && char.info) {
+                            const info = char.info;
                             characterData[charName] = {
-                                health: char.info.health || 0,
-                                archetype: char.info.archetype || '',
-                                playstyle: char.info.playstyle || '',
-                                moves: char.moves || [],  // Already in array format
-                                combos: Object.values(char.bnb_combos || {}),
-                                data_quality: char.data_quality || {}
+                                health: (info && info.health !== undefined) ? info.health : 0,
+                                archetype: (info && info.archetype) ? info.archetype : '',
+                                playstyle: (info && info.playstyle) ? info.playstyle : '',
+                                moves: (char.moves && Array.isArray(char.moves)) ? char.moves : [],
+                                combos: (char.bnb_combos && typeof char.bnb_combos === 'object') ? Object.values(char.bnb_combos) : [],
+                                data_quality: (char.data_quality && typeof char.data_quality === 'object') ? char.data_quality : {}
                             };
                         }
                     }
@@ -635,12 +742,26 @@
                 console.error('Error loading database:', error);
                 const body = document.body;
                 if (body) {
+                    const errorMsg = (error && error.message) ? error.message : 'Unknown error';
+                    const errorType = (error && error.name) ? error.name : 'Error';
                     body.innerHTML = `
-                        <div style="padding: 50px; text-align: center;">
-                            <h1>Error Loading Database</h1>
-                            <p>Could not load character_database.json</p>
-                            <p>Please run: <code>python generate_database.py</code></p>
-                            <p style="color: #666; margin-top: 20px;">Error: ${error.message || 'Unknown error'}</p>
+                        <div style="padding: 50px; text-align: center; max-width: 600px; margin: 0 auto;">
+                            <h1 style="color: #dc2626; margin-bottom: 20px;">Error Loading Database</h1>
+                            <div style="background: #fee2e2; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 2px solid #dc2626;">
+                                <p style="font-weight: bold; margin-bottom: 10px;">Could not load character_database.json</p>
+                                <p style="color: #666; margin-bottom: 15px;"><strong>Error Type:</strong> ${errorType}</p>
+                                <p style="color: #666; margin-bottom: 15px;"><strong>Error Message:</strong> ${errorMsg}</p>
+                            </div>
+                            <div style="background: #f0f9ff; padding: 20px; border-radius: 10px; border: 2px solid #3b82f6;">
+                                <h2 style="color: #1e40af; margin-bottom: 15px;">How to Fix:</h2>
+                                <ol style="text-align: left; display: inline-block; color: #1e40af;">
+                                    <li style="margin-bottom: 10px;">Open a terminal/command prompt</li>
+                                    <li style="margin-bottom: 10px;">Navigate to the project directory</li>
+                                    <li style="margin-bottom: 10px;">Run: <code style="background: #e0e7ff; padding: 5px 10px; border-radius: 5px;">python generate_database.py</code></li>
+                                    <li style="margin-bottom: 10px;">Refresh this page</li>
+                                </ol>
+                            </div>
+                            <button onclick="location.reload()" style="margin-top: 20px; padding: 12px 24px; background: #1e3c72; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; font-weight: bold;">🔄 Retry</button>
                         </div>
                     `;
                 } else {
@@ -656,12 +777,21 @@
                 const allTabs = document.querySelectorAll('.tab-content');
                 const allTabButtons = document.querySelectorAll('.tab');
                 
-                allTabs.forEach(tab => {
-                    if (tab) tab.classList.remove('active');
-                });
-                allTabButtons.forEach(tab => {
-                    if (tab) tab.classList.remove('active');
-                });
+                for (let i = 0; i < allTabs.length; i++) {
+                    const tab = allTabs[i];
+                    if (tab) {
+                        tab.classList.remove('active');
+                        tab.setAttribute('aria-hidden', 'true');
+                    }
+                }
+                for (let i = 0; i < allTabButtons.length; i++) {
+                    const tab = allTabButtons[i];
+                    if (tab) {
+                        tab.classList.remove('active');
+                        tab.setAttribute('aria-selected', 'false');
+                        tab.setAttribute('tabindex', '-1');
+                    }
+                }
                 
                 // Show selected tab
                 const targetTab = document.getElementById(tabName + '-tab');
@@ -670,16 +800,31 @@
                     return;
                 }
                 targetTab.classList.add('active');
+                targetTab.setAttribute('aria-hidden', 'false');
                 
+                let activeButton = null;
                 if (event && event.target) {
-                    event.target.classList.add('active');
+                    activeButton = event.target;
                 } else {
-                    // Fallback: find button by text
-                    allTabButtons.forEach(btn => {
-                        if (btn.textContent && btn.textContent.toLowerCase().includes(tabName.toLowerCase())) {
-                            btn.classList.add('active');
+                    // Fallback: find button by ID
+                    activeButton = document.getElementById('tab-' + tabName);
+                    if (!activeButton) {
+                        // Fallback: find button by text
+                        for (let i = 0; i < allTabButtons.length; i++) {
+                            const btn = allTabButtons[i];
+                            if (btn && btn.textContent && btn.textContent.toLowerCase().includes(tabName.toLowerCase())) {
+                                activeButton = btn;
+                                break;
+                            }
                         }
-                    });
+                    }
+                }
+                
+                if (activeButton) {
+                    activeButton.classList.add('active');
+                    activeButton.setAttribute('aria-selected', 'true');
+                    activeButton.setAttribute('tabindex', '0');
+                    activeButton.focus();
                 }
                 
                 // Load appropriate data
@@ -900,9 +1045,87 @@
             loadCharacterOverview();
         }
         
+        // Keyboard navigation for tabs
+        document.addEventListener('keydown', function(e) {
+            // Arrow key navigation for tabs (when tab is focused)
+            if (e.target && e.target.classList.contains('tab')) {
+                const tabs = Array.from(document.querySelectorAll('.tab'));
+                const currentIndex = tabs.indexOf(e.target);
+                
+                if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const nextIndex = (currentIndex + 1) % tabs.length;
+                    tabs[nextIndex].focus();
+                    tabs[nextIndex].click();
+                } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    const prevIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+                    tabs[prevIndex].focus();
+                    tabs[prevIndex].click();
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    tabs[0].focus();
+                    tabs[0].click();
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    tabs[tabs.length - 1].focus();
+                    tabs[tabs.length - 1].click();
+                }
+            }
+            
+            // Keyboard shortcuts
+            if (e.ctrlKey || e.metaKey) {
+                if (e.key === '1') {
+                    e.preventDefault();
+                    showTab('overview');
+                } else if (e.key === '2') {
+                    e.preventDefault();
+                    showTab('moves');
+                } else if (e.key === '3') {
+                    e.preventDefault();
+                    showTab('combos');
+                } else if (e.key === '4') {
+                    e.preventDefault();
+                    showTab('fastest');
+                } else if (e.key === '5') {
+                    e.preventDefault();
+                    showTab('safest');
+                } else if (e.key === '6') {
+                    e.preventDefault();
+                    showTab('efficiency');
+                }
+            }
+        });
+        
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             loadDatabase();
+            
+            // Set initial ARIA states
+            const tabs = document.querySelectorAll('.tab');
+            const tabPanels = document.querySelectorAll('.tab-content');
+            for (let i = 0; i < tabs.length; i++) {
+                const tab = tabs[i];
+                if (tab) {
+                    if (i === 0) {
+                        tab.setAttribute('tabindex', '0');
+                        tab.setAttribute('aria-selected', 'true');
+                    } else {
+                        tab.setAttribute('tabindex', '-1');
+                        tab.setAttribute('aria-selected', 'false');
+                    }
+                }
+            }
+            for (let i = 0; i < tabPanels.length; i++) {
+                const panel = tabPanels[i];
+                if (panel) {
+                    if (i === 0) {
+                        panel.setAttribute('aria-hidden', 'false');
+                    } else {
+                        panel.setAttribute('aria-hidden', 'true');
+                    }
+                }
+            }
         });
         
         // Load combos
@@ -963,9 +1186,12 @@
             
             let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px;">';
             
-            combos.forEach(combo => {
-                if (!combo) return; // Skip null/undefined combos
-                const stars = '⭐'.repeat(Math.max(1, combo.difficulty || 1));
+            for (let i = 0; i < combos.length; i++) {
+                const combo = combos[i];
+                if (!combo || typeof combo !== 'object') continue;
+                
+                const difficulty = (combo.difficulty !== undefined && combo.difficulty !== null) ? Math.max(1, combo.difficulty) : 1;
+                const stars = '⭐'.repeat(difficulty);
                 html += `
                     <div style="background: white; border: 2px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
                         <div style="font-size: 1.3em; font-weight: bold; color: #1e3c72; margin-bottom: 10px;">${combo.name || 'Unnamed Combo'}</div>
@@ -993,12 +1219,12 @@
                             </div>
                         </div>
                         <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #e0e0e0;">
-                            <div style="margin-bottom: 5px;"><strong>When to Use:</strong> ${combo.situation || 'General use'}</div>
-                            <div style="font-size: 0.9em; color: #666;"><strong>Notes:</strong> ${combo.notes || 'No additional notes'}</div>
+                            <div style="margin-bottom: 5px;"><strong>When to Use:</strong> ${(combo.situation) ? combo.situation : 'General use'}</div>
+                            <div style="font-size: 0.9em; color: #666;"><strong>Notes:</strong> ${(combo.notes) ? combo.notes : 'No additional notes'}</div>
                         </div>
                     </div>
                 `;
-            });
+            }
             
             html += '</div>';
             container.innerHTML = html;
@@ -1095,9 +1321,11 @@
                 let html = '<div class="moves-grid">';
                 
                 // Iterate through each character
-                Object.keys(fastestMoves).forEach(charName => {
+                const fastestCharKeys = Object.keys(fastestMoves);
+                for (let i = 0; i < fastestCharKeys.length; i++) {
+                    const charName = fastestCharKeys[i];
                     const moves = fastestMoves[charName];
-                    if (!moves || !Array.isArray(moves) || moves.length === 0) return;
+                    if (!moves || !Array.isArray(moves) || moves.length === 0) continue;
                     
                     // Get top 5 fastest moves for this character
                     const topMoves = moves.slice(0, 5);
@@ -1121,27 +1349,34 @@
                                     <tbody>
                     `;
                     
-                    topMoves.forEach(move => {
-                        if (!move) return; // Skip null/undefined moves
-                        const riskLevel = move.risk_level || 'medium';
+                    for (let j = 0; j < topMoves.length; j++) {
+                        const move = topMoves[j];
+                        if (!move || typeof move !== 'object') continue;
+                        
+                        const riskLevel = (move.risk_level) ? move.risk_level : 'medium';
                         const riskClass = riskLevel === 'low' ? 'risk-low' : 
                                         riskLevel === 'high' ? 'risk-high' : 'risk-medium';
-                        const onBlock = move.on_block || 0;
+                        const onBlock = (move.on_block !== undefined && move.on_block !== null) ? move.on_block : 0;
                         const onBlockClass = onBlock > 0 ? 'safe' : onBlock < -5 ? 'unsafe' : 'neutral';
                         const onBlockText = onBlock > 0 ? `+${onBlock}` : onBlock;
+                        const moveInput = (move.move) ? move.move : ((move.input) ? move.input : '-');
+                        const moveName = (move.name) ? move.name : moveInput;
+                        const startup = (move.startup !== undefined && move.startup !== null) ? move.startup + 'f' : '-';
+                        const recovery = (move.recovery !== undefined && move.recovery !== null) ? move.recovery + 'f' : '-';
+                        const damage = (move.damage && move.damage > 0) ? move.damage : '-';
                         
                         html += `
                             <tr>
-                                <td><strong>${move.move || move.input || '-'}</strong></td>
-                                <td>${move.name || move.move || move.input || '-'}</td>
-                                <td><span class="startup-badge">${move.startup !== undefined ? move.startup + 'f' : '-'}</span></td>
-                                <td>${move.recovery !== undefined ? move.recovery + 'f' : '-'}</td>
+                                <td><strong>${moveInput}</strong></td>
+                                <td>${moveName}</td>
+                                <td><span class="startup-badge">${startup}</span></td>
+                                <td>${recovery}</td>
                                 <td><span class="${onBlockClass}">${onBlockText}</span></td>
-                                <td>${(move.damage && move.damage > 0) ? move.damage : '-'}</td>
+                                <td>${damage}</td>
                                 <td><span class="badge ${riskClass}">${riskLevel.toUpperCase()}</span></td>
                             </tr>
                         `;
-                    });
+                    }
                     
                     html += `
                                     </tbody>
@@ -1194,38 +1429,43 @@
                 
                 // Calculate safest moves (best on_block)
                 const safest = [...nonGrabMoves]
-                    .sort((a, b) => b.on_block - a.on_block)
+                    .sort((a, b) => {
+                        const onBlockA = (a && a.on_block !== undefined && a.on_block !== null) ? a.on_block : -999;
+                        const onBlockB = (b && b.on_block !== undefined && b.on_block !== null) ? b.on_block : -999;
+                        return onBlockB - onBlockA;
+                    })
                     .slice(0, 5);
                 
                 // Calculate dangerous moves (worst on_block, high recovery, needs assist)
-                const dangerous = [...nonGrabMoves]
-                    .filter(m => {
-                        if (!m) return false;
-                        const onBlock = m.on_block || 0;
-                        const recovery = m.recovery || 0;
-                        // Very unsafe (< -8) OR requires assist OR high recovery (> 30)
-                        return onBlock < -8 || m.requires_assist || recovery > 30;
-                    })
-                    .map(m => {
-                        if (!m) return null;
+                const dangerous = [];
+                for (let j = 0; j < nonGrabMoves.length; j++) {
+                    const m = nonGrabMoves[j];
+                    if (!m || typeof m !== 'object') continue;
+                    
+                    const onBlock = (m.on_block !== undefined && m.on_block !== null) ? m.on_block : 0;
+                    const recovery = (m.recovery !== undefined && m.recovery !== null) ? m.recovery : 0;
+                    // Very unsafe (< -8) OR requires assist OR high recovery (> 30)
+                    if (onBlock < -8 || m.requires_assist === true || recovery > 30) {
                         // Calculate danger score
                         let score = 0;
-                        const onBlock = m.on_block || 0;
-                        const recovery = m.recovery || 0;
                         if (onBlock < -10) score += 3;
                         else if (onBlock < -8) score += 2;
                         else if (onBlock < -5) score += 1;
                         if (recovery > 30) score += 2;
                         else if (recovery > 20) score += 1;
-                        if (m.requires_assist) score += 3;
-                        const riskLevel = m.risk_level || 'medium';
+                        if (m.requires_assist === true) score += 3;
+                        const riskLevel = (m.risk_level) ? m.risk_level : 'medium';
                         if (riskLevel === 'high') score += 2;
                         else if (riskLevel === 'medium') score += 1;
-                        return {...m, danger_score: score};
-                    })
-                    .filter(m => m !== null) // Remove null entries
-                    .sort((a, b) => (b.danger_score || 0) - (a.danger_score || 0))
-                    .slice(0, 5);
+                        dangerous.push({...m, danger_score: score});
+                    }
+                }
+                dangerous.sort((a, b) => {
+                    const scoreA = (a && a.danger_score !== undefined && a.danger_score !== null) ? a.danger_score : 0;
+                    const scoreB = (b && b.danger_score !== undefined && b.danger_score !== null) ? b.danger_score : 0;
+                    return scoreB - scoreA;
+                });
+                dangerous.splice(5); // Keep only top 5
                 
                 // Show based on view mode
                 if (viewMode === 'safest' || viewMode === 'both') {
@@ -1250,25 +1490,32 @@
                                     <tbody>
                     `;
                     
-                    safest.forEach(move => {
-                        if (!move) return; // Skip null/undefined moves
-                        const onBlock = move.on_block || 0;
+                    for (let j = 0; j < safest.length; j++) {
+                        const move = safest[j];
+                        if (!move || typeof move !== 'object') continue;
+                        
+                        const onBlock = (move.on_block !== undefined && move.on_block !== null) ? move.on_block : 0;
                         const onBlockClass = onBlock > 0 ? 'safe' : onBlock < -5 ? 'unsafe' : 'neutral';
                         const onBlockText = onBlock > 0 ? `+${onBlock}` : onBlock;
-                        const safeMark = move.is_safe ? 'Yes' : 'No';
+                        const safeMark = (move.is_safe === true) ? 'Yes' : 'No';
+                        const moveInput = (move.move) ? move.move : ((move.input) ? move.input : '-');
+                        const moveName = (move.name) ? move.name : moveInput;
+                        const startup = (move.startup !== undefined && move.startup !== null) ? move.startup + 'f' : '-';
+                        const recovery = (move.recovery !== undefined && move.recovery !== null) ? move.recovery + 'f' : '-';
+                        const damage = (move.damage && move.damage > 0) ? move.damage : '-';
                         
                         html += `
                             <tr>
-                                <td><strong>${move.move || move.input || '-'}</strong></td>
-                                <td>${move.name || move.move || move.input || '-'}</td>
+                                <td><strong>${moveInput}</strong></td>
+                                <td>${moveName}</td>
                                 <td><span class="${onBlockClass}" style="font-weight: bold; font-size: 1.1em;">${onBlockText}</span></td>
-                                <td>${move.startup !== undefined ? move.startup + 'f' : '-'}</td>
-                                <td>${move.recovery !== undefined ? move.recovery + 'f' : '-'}</td>
-                                <td>${(move.damage && move.damage > 0) ? move.damage : '-'}</td>
+                                <td>${startup}</td>
+                                <td>${recovery}</td>
+                                <td>${damage}</td>
                                 <td>${safeMark}</td>
                             </tr>
                         `;
-                    });
+                    }
                     
                     html += `
                                     </tbody>
@@ -1301,29 +1548,34 @@
                                         <tbody>
                         `;
                         
-                        dangerous.forEach(move => {
-                            if (!move) return; // Skip null/undefined moves
+                        for (let j = 0; j < dangerous.length; j++) {
+                            const move = dangerous[j];
+                            if (!move || typeof move !== 'object') continue;
+                            
                             const onBlockClass = 'unsafe';
-                            const onBlock = move.on_block || 0;
+                            const onBlock = (move.on_block !== undefined && move.on_block !== null) ? move.on_block : 0;
                             const onBlockText = onBlock > 0 ? `+${onBlock}` : onBlock;
-                            const assistMark = move.requires_assist ? 'YES' : 'No';
-                            const riskLevel = move.risk_level || 'medium';
+                            const assistMark = (move.requires_assist === true) ? 'YES' : 'No';
+                            const riskLevel = (move.risk_level) ? move.risk_level : 'medium';
                             const riskClass = riskLevel === 'high' ? 'risk-high' : 
                                             riskLevel === 'low' ? 'risk-low' : 'risk-medium';
-                            const dangerScore = move.danger_score || 0;
+                            const dangerScore = (move.danger_score !== undefined && move.danger_score !== null) ? move.danger_score : 0;
+                            const moveInput = (move.move) ? move.move : ((move.input) ? move.input : '-');
+                            const moveName = (move.name) ? move.name : moveInput;
+                            const recovery = (move.recovery !== undefined && move.recovery !== null) ? move.recovery + 'f' : '-';
                             
                             html += `
                                 <tr style="background-color: ${dangerScore >= 6 ? '#fee2e2' : dangerScore >= 4 ? '#fef3c7' : '#f3f4f6'};">
-                                    <td><strong>${move.move || move.input || '-'}</strong></td>
-                                    <td>${move.name || move.move || move.input || '-'}</td>
+                                    <td><strong>${moveInput}</strong></td>
+                                    <td>${moveName}</td>
                                     <td><span class="${onBlockClass}" style="font-weight: bold; color: #dc2626;">${onBlockText}</span></td>
-                                    <td>${move.recovery !== undefined ? move.recovery + 'f' : '-'}</td>
+                                    <td>${recovery}</td>
                                     <td><span class="badge ${riskClass}">${riskLevel.toUpperCase()}</span></td>
                                     <td><strong>${assistMark}</strong></td>
                                     <td><span style="font-weight: bold; color: ${dangerScore >= 6 ? '#dc2626' : dangerScore >= 4 ? '#d97706' : '#6b7280'};">${dangerScore}/10</span></td>
                                 </tr>
                             `;
-                        });
+                        }
                         
                         html += `
                                         </tbody>
@@ -1374,26 +1626,30 @@
             let allMoves = [];
             
             // Gather all moves from all characters
-            Object.keys(characterData).forEach(charName => {
+            const charKeys = Object.keys(characterData);
+            for (let i = 0; i < charKeys.length; i++) {
+                const charName = charKeys[i];
                 const char = characterData[charName];
                 if (char && char.moves && Array.isArray(char.moves)) {
-                    char.moves.forEach(move => {
-                        if (!move) return; // Skip null/undefined moves
+                    for (let j = 0; j < char.moves.length; j++) {
+                        const move = char.moves[j];
+                        if (!move || typeof move !== 'object') continue;
+                        
                         // Calculate efficiency score: (damage * 2) - startup - recovery + (on_block * 3)
                         // Higher is better
-                        const damage = move.damage || 0;
-                        const startup = move.startup || 0;
-                        const recovery = move.recovery || 0;
-                        const onBlock = move.on_block || 0;
+                        const damage = (move.damage !== undefined && move.damage !== null) ? move.damage : 0;
+                        const startup = (move.startup !== undefined && move.startup !== null) ? move.startup : 0;
+                        const recovery = (move.recovery !== undefined && move.recovery !== null) ? move.recovery : 0;
+                        const onBlock = (move.on_block !== undefined && move.on_block !== null) ? move.on_block : 0;
                         const efficiency = (damage * 2) - startup - recovery + (onBlock * 3);
                         allMoves.push({
                             ...move,
                             character: charName,
                             efficiency: efficiency
                         });
-                    });
+                    }
                 }
-            });
+            }
             
             // Sort by efficiency (highest first)
             allMoves.sort((a, b) => (b.efficiency || 0) - (a.efficiency || 0));
@@ -1420,29 +1676,37 @@
                         <tbody>
             `;
             
-            topMoves.forEach((move, index) => {
-                if (!move) return; // Skip null/undefined moves
-                const riskLevel = move.risk_level || 'medium';
+            for (let i = 0; i < topMoves.length; i++) {
+                const move = topMoves[i];
+                if (!move || typeof move !== 'object') continue;
+                
+                const riskLevel = (move.risk_level) ? move.risk_level : 'medium';
                 const riskClass = riskLevel === 'low' ? 'risk-low' : 
                                 riskLevel === 'high' ? 'risk-high' : 'risk-medium';
-                const onBlock = move.on_block || 0;
+                const onBlock = (move.on_block !== undefined && move.on_block !== null) ? move.on_block : 0;
                 const onBlockClass = onBlock > 0 ? 'safe' : onBlock < -5 ? 'unsafe' : 'neutral';
                 const onBlockText = onBlock > 0 ? `+${onBlock}` : onBlock;
+                const charName = (move.character) ? move.character : 'Unknown';
+                const moveInput = (move.move) ? move.move : ((move.input) ? move.input : '-');
+                const moveName = (move.name) ? move.name : moveInput;
+                const efficiency = (move.efficiency !== undefined && move.efficiency !== null) ? Math.round(move.efficiency) : 0;
+                const damage = (move.damage && move.damage > 0) ? move.damage : '-';
+                const startup = (move.startup !== undefined && move.startup !== null) ? move.startup + 'f' : '-';
                 
                 html += `
                     <tr>
-                        <td><strong>#${index + 1}</strong></td>
-                        <td><strong>${move.character || 'Unknown'}</strong></td>
-                        <td><strong>${move.move || move.input || '-'}</strong></td>
-                        <td>${move.name || move.move || move.input || '-'}</td>
-                        <td><span class="startup-badge" style="background: #667eea; color: white;">${Math.round(move.efficiency || 0)}</span></td>
-                        <td>${(move.damage && move.damage > 0) ? move.damage : '-'}</td>
-                        <td>${move.startup !== undefined ? move.startup + 'f' : '-'}</td>
+                        <td><strong>#${i + 1}</strong></td>
+                        <td><strong>${charName}</strong></td>
+                        <td><strong>${moveInput}</strong></td>
+                        <td>${moveName}</td>
+                        <td><span class="startup-badge" style="background: #667eea; color: white;">${efficiency}</span></td>
+                        <td>${damage}</td>
+                        <td>${startup}</td>
                         <td><span class="${onBlockClass}">${onBlockText}</span></td>
                         <td><span class="badge ${riskClass}">${riskLevel.toUpperCase()}</span></td>
                     </tr>
                 `;
-            });
+            }
             
             html += `
                         </tbody>
@@ -1476,18 +1740,22 @@
             cards.sort((a, b) => {
                 const nameElA = a.querySelector('.character-name');
                 const nameElB = b.querySelector('.character-name');
-                const charNameA = (nameElA && nameElA.textContent) || '';
-                const charNameB = (nameElB && nameElB.textContent) || '';
-                const charA = characterData[charNameA];
-                const charB = characterData[charNameB];
+                const charNameA = (nameElA && nameElA.textContent) ? nameElA.textContent.trim() : '';
+                const charNameB = (nameElB && nameElB.textContent) ? nameElB.textContent.trim() : '';
+                const charA = (charNameA && characterData[charNameA]) ? characterData[charNameA] : null;
+                const charB = (charNameB && characterData[charNameB]) ? characterData[charNameB] : null;
                 
                 if (!charA || !charB) return 0;
                 
                 switch(sortBy) {
                     case 'health':
-                        return (charB.health || 0) - (charA.health || 0);
+                        const healthA = (charA.health !== undefined && charA.health !== null) ? charA.health : 0;
+                        const healthB = (charB.health !== undefined && charB.health !== null) ? charB.health : 0;
+                        return healthB - healthA;
                     case 'archetype':
-                        return (charA.archetype || '').localeCompare(charB.archetype || '');
+                        const archA = (charA.archetype) ? charA.archetype : '';
+                        const archB = (charB.archetype) ? charB.archetype : '';
+                        return archA.localeCompare(archB);
                     case 'name':
                     default:
                         return charNameA.localeCompare(charNameB);
@@ -1495,8 +1763,75 @@
             });
             
             // Re-append sorted cards
-            cards.forEach(card => container.appendChild(card));
+            for (let i = 0; i < cards.length; i++) {
+                if (cards[i]) {
+                    container.appendChild(cards[i]);
+                }
+            }
         }
+        
+        // Export data functionality
+        function exportCharacterData(characterName) {
+            try {
+                if (!characterData || !characterData[characterName]) {
+                    alert('Character data not available');
+                    return;
+                }
+                
+                const char = characterData[characterName];
+                const exportData = {
+                    character: characterName,
+                    health: char.health || 0,
+                    archetype: char.archetype || '',
+                    playstyle: char.playstyle || '',
+                    moves: char.moves || [],
+                    combos: char.combos || [],
+                    exported_at: new Date().toISOString()
+                };
+                
+                const dataStr = JSON.stringify(exportData, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${characterName}_data.json`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Error exporting data:', error);
+                alert('Failed to export data. Check console for details.');
+            }
+        }
+        
+        // Add export button to character cards
+        function addExportButtons() {
+            const cards = document.querySelectorAll('.character-card');
+            for (let i = 0; i < cards.length; i++) {
+                const card = cards[i];
+                if (card && !card.querySelector('.export-btn')) {
+                    const charNameEl = card.querySelector('.character-name');
+                    if (charNameEl) {
+                        const charName = charNameEl.textContent.trim();
+                        const exportBtn = document.createElement('button');
+                        exportBtn.className = 'export-btn';
+                        exportBtn.textContent = '📥 Export';
+                        exportBtn.style.cssText = 'margin-top: 10px; padding: 8px 16px; background: #10b981; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 0.9em;';
+                        exportBtn.onclick = function() { exportCharacterData(charName); };
+                        exportBtn.setAttribute('aria-label', `Export data for ${charName}`);
+                        card.appendChild(exportBtn);
+                    }
+                }
+            }
+        }
+        
+        // Call after character overview loads
+        const originalLoadCharacterOverview = loadCharacterOverview;
+        loadCharacterOverview = function() {
+            originalLoadCharacterOverview();
+            setTimeout(addExportButtons, 100);
+        };
     </script>
 </body>
 </html>
