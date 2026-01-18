@@ -1439,14 +1439,22 @@
                 return;
             }
             
-            Object.keys(databaseData.characters).forEach(charName => {
+            const charKeys = Object.keys(databaseData.characters);
+            for (let i = 0; i < charKeys.length; i++) {
+                const charName = charKeys[i];
                 const char = databaseData.characters[charName];
-                if (!char || !char.moves || !Array.isArray(char.moves)) return;
+                if (!char || !char.moves || !Array.isArray(char.moves)) continue;
                 
                 const moves = char.moves;
                 
                 // Filter out grabs for safety analysis
-                const nonGrabMoves = moves.filter(m => m && !m.is_grab);
+                const nonGrabMoves = [];
+                for (let j = 0; j < moves.length; j++) {
+                    const m = moves[j];
+                    if (m && typeof m === 'object' && !m.is_grab) {
+                        nonGrabMoves.push(m);
+                    }
+                }
                 
                 // Calculate safest moves (best on_block)
                 const safest = [...nonGrabMoves]
