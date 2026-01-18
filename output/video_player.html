@@ -1171,7 +1171,8 @@
                         infoDiv.style.display = 'none';
                     }
                     
-                    // Continue with normal loading...
+                    // Continue with normal loading
+                    loadVideoContent();
                 }
             }).catch(error => {
                 console.error('Error checking video accessibility:', error);
@@ -1188,17 +1189,16 @@
                     `;
                     statusDiv.className = 'player-status active error';
                 }
+                // On error, still try to load (might be CORS issue, not missing file)
+                loadVideoContent();
             });
             
-            // Only proceed with loading if file is accessible
-            // (This check happens asynchronously above, so we need to wait)
-            // For now, we'll load anyway and let the error handlers catch it
-            // But we've already shown the unavailable message above
-            
-            let sourceElement = null;
-            let playerElement = null;
-            
-            switch (currentPlayerMethod) {
+            // Function to actually load the video content (only called if file is accessible)
+            function loadVideoContent() {
+                let sourceElement = null;
+                let playerElement = null;
+                
+                switch (currentPlayerMethod) {
                 case 'native':
                     playerElement = document.getElementById('videoPlayer');
                     sourceElement = document.getElementById('videoSource');
