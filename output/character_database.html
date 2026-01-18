@@ -869,16 +869,20 @@
                 return;
             }
             
-            Object.keys(characterData).forEach(charName => {
+            const charKeys = Object.keys(characterData);
+            const fragment = document.createDocumentFragment();
+            
+            for (let i = 0; i < charKeys.length; i++) {
+                const charName = charKeys[i];
                 const char = characterData[charName];
-                if (!char) return;
+                if (!char) continue;
                 
                 const card = document.createElement('div');
                 card.className = 'character-card';
                 // Check data quality
-                const dataQuality = char.data_quality || {};
-                const isPlaceholder = dataQuality.has_placeholder || dataQuality.status === 'placeholder';
-                const isVerified = dataQuality.is_verified || dataQuality.status === 'verified';
+                const dataQuality = (char.data_quality && typeof char.data_quality === 'object') ? char.data_quality : {};
+                const isPlaceholder = dataQuality.has_placeholder === true || dataQuality.status === 'placeholder';
+                const isVerified = dataQuality.is_verified === true || dataQuality.status === 'verified';
                 
                 let qualityBadge = '';
                 if (isPlaceholder) {
@@ -887,24 +891,38 @@
                     qualityBadge = '<div style="background: #d1fae5; color: #065f46; padding: 8px; border-radius: 5px; margin-bottom: 10px; font-weight: bold; border: 2px solid #10b981;"><span style="font-size: 1.2em;">✓</span> VERIFIED REAL DATA</div>';
                 }
                 
+                const health = (char.health !== undefined && char.health !== null) ? char.health : 'N/A';
+                const archetype = (char.archetype) ? char.archetype : 'N/A';
+                const playstyle = (char.playstyle) ? char.playstyle : 'N/A';
+                
                 card.innerHTML = `
                     ${qualityBadge}
                     <div class="character-name">${charName}</div>
                     <div class="character-stat">
                         <span class="stat-label">Health:</span>
-                        <span class="stat-value">${char.health || 'N/A'}</span>
+                        <span class="stat-value">${health}</span>
                     </div>
                     <div class="character-stat">
                         <span class="stat-label">Archetype:</span>
-                        <span class="stat-value">${char.archetype || 'N/A'}</span>
+                        <span class="stat-value">${archetype}</span>
                     </div>
                     <div class="character-stat">
                         <span class="stat-label">Playstyle:</span>
-                        <span class="stat-value">${char.playstyle || 'N/A'}</span>
+                        <span class="stat-value">${playstyle}</span>
                     </div>
+                    <button class="export-btn" onclick="exportCharacterData('${charName}')" aria-label="Export data for ${charName}" style="margin-top: 10px; padding: 8px 16px; background: #10b981; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 0.9em; width: 100%;">📥 Export Data</button>
                 `;
-                container.appendChild(card);
-            });
+                fragment.appendChild(card);
+            }
+            
+            container.appendChild(fragment);
+            
+            // Add export buttons after cards are rendered
+            setTimeout(function() {
+                if (typeof addExportButtons === 'function') {
+                    addExportButtons();
+                }
+            }, 50);
         }
         
         // Load moves table
