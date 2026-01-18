@@ -1,0 +1,96 @@
+================================================================================
+                    BLITZCRANK CHEAT SHEET - QUICK REF
+================================================================================
+
+NOTATION GUIDE: Think of a keyboard numpad for directions!
+  5 = Standing | 2 = Crouching | j. = Jumping
+  L/M/H = Light/Medium/Heavy | S1/S2 = Special 1/2
+  Example: 2S1 = Hold Down + press Special 1
+
+================================================================================
+MOST IMPORTANT MOVES                 | FRAME ADVANTAGE GUIDE
+---------------------------------------|--------------------------------------
+2S1 (Air Purifier) - +44 ON BLOCK!   | +10 or more  = FREE MIXUP
+  English: Shoot fist up at jumpers  | +1 to +9     = Your turn
+  ✓ Safest move in game              | 0 to -2      = Slightly unsafe
+  ✓ Perfect anti-air                 | -3 to -5     = Unsafe
+  ✓ Never needs assist               | -6 or worse  = VERY UNSAFE
+  How: Hold Down + Special 1         |
+                                     |
+5S1 (Rocket Grab) - SAFE AT RANGE    | YOUR FRAME SITUATIONS
+  English: Shoot fist to pull close  | 2S1 on block: +44 (FREE MIXUP!)
+  ✓ Controls space                   | 5L on block:  -2  (Slightly unsafe)
+  ✓ Forces approach                  |
+  ✓ Enhanced = shock                 |
+  How: Press Special 1 standing      |
+                                     |
+2S2 (Garbage Collection) - UNBLOCK   |
+  English: Grab - can't be blocked!  |
+  ⚠ ONLY WITH ASSIST OR SETUP!       |
+  ⚠ Very risky on whiff              |
+  How: Hold Down + Special 2         |
+
+================================================================================
+WHEN TO USE ASSIST                   | PUNISH GUIDE
+================================================================================
+ALWAYS:                              | OPPONENT WHIFFS BIG MOVE:
+  • 2S2 (Command grab) mixups        |   ✓ 2S2 (Free grab!)
+  • Whiffed heavy normals            |   ✓ 5S1 → Combo
+  • Unsafe on block situations       |   ✓ Jump-in full combo
+                                     |
+OPTIONAL:                            | OPPONENT JUMPS:
+  • 5L (Can space/cancel it)         |   ✓ 2S1 (Air Purifier +44!)
+  • Combo extensions                 |   ✓ j.S1 (Air Rocket Grab)
+                                     |
+NEVER:                               | OPPONENT BLOCKS TOO MUCH:
+  • 2S1 (Already +44!)               |   ✓ 2S2 + Assist
+                                     |   ✓ Regular throw
+                                     |
+                                     | OPPONENT VERY MINUS:
+                                     |   ✓ Fast normal → Combo
+                                     |   ✓ 2S2 if close
+                                     |   ✓ Super if meter
+
+================================================================================
+RECOVERY TIMES                       | GAMEPLAN
+================================================================================
+5L:  12f recovery, 25f total (-2)    | 1. ZONE with Rocket Grab (5S1)
+2S1: 119f recovery, 153f total (+44) | 2. ANTI-AIR with Air Purifier (2S1)
+                                     | 3. GET CLOSE, then MIX:
+                                     |    • Attack (blockable)
+                                     |    • Grab (unblockable)
+                                     | 4. USE ASSISTS to cover
+                                     | 5. DON'T SPAM grab - condition first!
+
+================================================================================
+COMMON MISTAKES                      | STRENGTHS vs WEAKNESSES
+================================================================================
+❌ DON'T:                            | 💪 STRENGTHS:
+  • Spam 2S2 without setup           |   + Rocket Grab forces approach
+  • Use grab from far away           |   + Command Grab beats block
+  • Forget 2S1 anti-air              |   + +44 anti-air (2S1)
+  • Press when minus                 |   + High health (1050)
+  • Big moves without assist         |
+                                     | ❌ WEAKNESSES:
+✅ DO:                               |   - Risky neutral
+  • Control space with 5S1           |   - Slow dash
+  • Call assist before grab          |   - Bad defense
+  • Use 2S1 vs jumpers               |   - Needs reads to win
+  • Condition before grabbing        |
+  • Watch frame advantage            |
+
+================================================================================
+NOTATION GUIDE                       | RISK LEVELS
+================================================================================
+7  8  9     ↖ ↑ ↗                   | LOW RISK (Use Freely):
+4  5  6     ← • →                   |   • 2S1 (Air Purifier)
+1  2  3     ↙ ↓ ↘                   |   • 5S1 (Rocket Grab)
+                                     |   • 5L (slight -2, cancel it)
+5 = Neutral  L/M/H = Light/Med/Heavy|
+2 = Down     S1/S2 = Special 1/2    | HIGH RISK (Setup/Assist Only):
+j.= Jumping                          |   • 2S2 (Garbage Collection)
+
+================================================================================
+TL;DR: Zone → Anti-air → Get close → Mix strikes/grabs → Win!
+================================================================================
+Data source: https://wiki.play2xko.com

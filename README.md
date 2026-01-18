@@ -48,8 +48,22 @@ python analyzer.py --video "path/to/video.mp4" --matchup mirror --character Blit
 - `analyzer.py` - Main analysis script (incomplete)
 - `video_processor.py` - Video processing (may have bugs)
 - `clip_generator.py` - Video clip extraction (codec issues)
+- `character_data.py` - Character frame data and move information
+- `generate_cheat_sheet.py` - Generate cheat sheets from character data
 - `output/video_player.html` - Video player (multiple playback failures)
 - `output/video_player_backup.html` - Alternative player (experimental)
+
+## Cheat Sheets & References
+
+The project now includes comprehensive cheat sheets for character moves and strategy:
+
+- **MOVE_CHEAT_SHEET.md** - Complete reference guide with all moves, frame data, and strategic recommendations
+- **QUICK_REFERENCE.md** - One-page quick reference card for during matches
+- **CHEAT_SHEET_GUIDE.md** - Documentation on how to use all cheat sheet resources
+- **output/Blitzcrank_cheat_sheet.txt** - Auto-generated text format cheat sheet
+- **output/Blitzcrank_cheat_sheet.json** - Auto-generated JSON format for programmatic access
+
+Generate updated cheat sheets: `python generate_cheat_sheet.py [CharacterName]`
 
 ## Contributing
 

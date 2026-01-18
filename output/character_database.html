@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2XKO Character Database - Move Comparison</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .tabs {
+            display: flex;
+            background: #f5f5f5;
+            border-bottom: 3px solid #ddd;
+            overflow-x: auto;
+        }
+        
+        .tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1em;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -3px;
+        }
+        
+        .tab:hover {
+            background: #e0e0e0;
+            color: #333;
+        }
+        
+        .tab.active {
+            color: #1e3c72;
+            border-bottom-color: #1e3c72;
+            background: white;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .filters {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .filter-group label {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #666;
+        }
+        
+        select, input {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: #1e3c72;
+        }
+        
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .character-card {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .character-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: #1e3c72;
+        }
+        
+        .character-card.selected {
+            border-color: #1e3c72;
+            background: #f0f4ff;
+        }
+        
+        .character-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+        
+        .character-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .stat-label {
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .stat-value {
+            color: #333;
+        }
+        
+        .move-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .move-table th {
+            background: #1e3c72;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .move-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .move-table tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .move-table tr.sortable-header:hover {
+            background: #1a3462;
+            cursor: pointer;
+        }
+        
+        .safety-safe {
+            color: #22c55e;
+            font-weight: bold;
+        }
+        
+        .safety-unsafe {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        
+        .safety-neutral {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        
+        .risk-low {
+            background: #dcfce7;
+            color: #166534;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        
+        .risk-medium {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        
+        .risk-high {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 2px;
+        }
+        
+        .badge-assist {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .badge-setup {
+            background: #fce7f3;
+            color: #9f1239;
+        }
+        
+        .combo-card {
+            background: #f9f9f9;
+            border-left: 4px solid #1e3c72;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        
+        .combo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .combo-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+        
+        .combo-difficulty {
+            color: #f59e0b;
+        }
+        
+        .moves-table {
+            width: 100%;
+            margin: 20px 0;
+        }
+        
+        .moves-table table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .moves-table th {
+            background: #1e3c72;
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .moves-table td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .moves-table tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .character-fastest-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+        
+        .startup-badge {
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+        
+        .safe {
+            color: #22c55e;
+            font-weight: bold;
+        }
+        
+        .unsafe {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        
+        .neutral {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        
+        .combo-notation {
+            font-family: 'Courier New', monospace;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+        }
+        
+        .combo-stats {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .combo-stat {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .comparison-table th {
+            background: #1e3c72;
+            color: white;
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .comparison-table td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        
+        .best-value {
+            background: #dcfce7;
+            font-weight: bold;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            color: #999;
+        }
+        
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .character-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .move-table {
+                font-size: 0.85em;
+            }
+            
+            .move-table th, .move-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>2XKO Character Database</h1>
+            <p class="subtitle">Complete move data, frame data, and combo information for all characters</p>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">Character Overview</button>
+            <button class="tab" onclick="showTab('moves')">Move Comparison</button>
+            <button class="tab" onclick="showTab('combos')">BnB Combos</button>
+            <button class="tab" onclick="showTab('fastest')">Fastest Moves</button>
+            <button class="tab" onclick="showTab('safest')">Safest Moves</button>
+            <button class="tab" onclick="showTab('efficiency')">Move Efficiency</button>
+        </div>
+        
+        <div class="content">
+            <!-- Overview Tab -->
+            <div id="overview-tab" class="tab-content active">
+                <h2>Character Statistics</h2>
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Sort By:</label>
+                        <select id="sort-characters" onchange="sortCharacters()">
+                            <option value="name">Name</option>
+                            <option value="health">Health</option>
+                            <option value="archetype">Archetype</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="character-grid" class="character-grid">
+                    <!-- Characters will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Moves Tab -->
+            <div id="moves-tab" class="tab-content">
+                <h2>Move Database</h2>
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Character:</label>
+                        <select id="move-character" onchange="loadMoves()">
+                            <option value="">All Characters</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Sort By:</label>
+                        <select id="sort-moves" onchange="loadMoves()">
+                            <option value="startup">Startup Speed</option>
+                            <option value="safety">Safety (On Block)</option>
+                            <option value="damage">Damage</option>
+                            <option value="recovery">Recovery Time</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Filter:</label>
+                        <select id="filter-moves" onchange="loadMoves()">
+                            <option value="all">All Moves</option>
+                            <option value="safe">Safe Only</option>
+                            <option value="unsafe">Unsafe Only</option>
+                            <option value="assist">Requires Assist</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="moves-container">
+                    <!-- Moves table will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Combos Tab -->
+            <div id="combos-tab" class="tab-content">
+                <h2>BnB Combos</h2>
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Character:</label>
+                        <select id="combo-character" onchange="loadCombos()">
+                            <option value="">Select Character</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Difficulty:</label>
+                        <select id="combo-difficulty" onchange="loadCombos()">
+                            <option value="all">All Difficulties</option>
+                            <option value="1">⭐ Beginner</option>
+                            <option value="2">⭐⭐ Easy</option>
+                            <option value="3">⭐⭐⭐ Medium</option>
+                            <option value="4">⭐⭐⭐⭐ Hard</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="combos-container">
+                    <!-- Combos will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Fastest Moves Tab -->
+            <div id="fastest-tab" class="tab-content">
+                <h2>Fastest Moves</h2>
+                <div class="filters" style="margin-bottom: 20px;">
+                    <div class="filter-group">
+                        <label>View:</label>
+                        <select id="fastest-view" onchange="loadFastest()">
+                            <option value="global">Fastest Moves in the Game</option>
+                            <option value="by-character">By Character</option>
+                        </select>
+                    </div>
+                </div>
+                <p style="margin-bottom: 20px; color: #666;">Ranked by startup frames (lower is faster)</p>
+                <div id="fastest-container">
+                    <!-- Fastest moves will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Safest Moves Tab -->
+            <div id="safest-tab" class="tab-content">
+                <h2>Move Safety Analysis</h2>
+                <div class="filters" style="margin-bottom: 20px;">
+                    <div class="filter-group">
+                        <label>View:</label>
+                        <select id="safety-view" onchange="loadSafest()">
+                            <option value="safest">Safest Moves (Best on Block)</option>
+                            <option value="dangerous">Dangerous Moves (Need Assist)</option>
+                            <option value="both">Both (Safest & Dangerous)</option>
+                        </select>
+                    </div>
+                </div>
+                <p style="margin-bottom: 20px; color: #666;">
+                    <strong>Safest Moves:</strong> Moves with best frame advantage on block (safe to use in pressure)<br>
+                    <strong>Dangerous Moves:</strong> Moves that are very unsafe and should only be used with assist cover
+                </p>
+                <div id="safest-container">
+                    <!-- Safest/dangerous moves will be loaded here -->
+                </div>
+            </div>
+            
+            <!-- Efficiency Tab -->
+            <div id="efficiency-tab" class="tab-content">
+                <h2>Move Efficiency Rankings</h2>
+                <p style="margin-bottom: 20px; color: #666;">Moves ranked by efficiency score (speed + safety + damage)</p>
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Character:</label>
+                        <select id="efficiency-character" onchange="loadEfficiency()">
+                            <option value="">Select Character</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="efficiency-container">
+                    <!-- Efficiency rankings will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Load data from JSON file
+        let characterData = {};
+        let databaseData = null;
+        
+        // Load database from JSON
+        async function loadDatabase() {
+            try {
+                const response = await fetch('character_database.json');
+                databaseData = await response.json();
+                
+                // Convert database format to characterData format for compatibility
+                if (databaseData && databaseData.characters) {
+                    Object.keys(databaseData.characters).forEach(charName => {
+                        const char = databaseData.characters[charName];
+                        characterData[charName] = {
+                            health: char.info.health,
+                            archetype: char.info.archetype,
+                            playstyle: char.info.playstyle,
+                            moves: char.moves || [],  // Already in array format
+                            combos: Object.values(char.bnb_combos || {})
+                        };
+                    });
+                }
+                
+                // Initialize UI after data loads
+                initializeUI();
+            } catch (error) {
+                console.error('Error loading database:', error);
+                const body = document.body;
+                if (body) {
+                    body.innerHTML = `
+                        <div style="padding: 50px; text-align: center;">
+                            <h1>Error Loading Database</h1>
+                            <p>Could not load character_database.json</p>
+                            <p>Please run: <code>python generate_database.py</code></p>
+                            <p style="color: #666; margin-top: 20px;">Error: ${error.message || 'Unknown error'}</p>
+                        </div>
+                    `;
+                } else {
+                    console.error('Error loading database:', error);
+                }
+            }
+        }
+        
+        // Tab switching
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+            event.target.classList.add('active');
+            
+            // Load appropriate data
+            switch(tabName) {
+                case 'overview':
+                    loadCharacterOverview();
+                    break;
+                case 'moves':
+                    loadMoves();
+                    break;
+                case 'combos':
+                    loadCombos();
+                    break;
+                case 'fastest':
+                    loadFastest();
+                    break;
+                case 'safest':
+                    loadSafest();
+                    break;
+                case 'efficiency':
+                    loadEfficiency();
+                    break;
+            }
+        }
+        
+        // Load character overview
+        function loadCharacterOverview() {
+            const container = document.getElementById('character-grid');
+            if (!container) {
+                console.error('character-grid container not found');
+                return;
+            }
+            container.innerHTML = '';
+            
+            if (!characterData || Object.keys(characterData).length === 0) {
+                container.innerHTML = '<div class="loading">No character data available. Please run: python generate_database.py</div>';
+                return;
+            }
+            
+            Object.keys(characterData).forEach(charName => {
+                const char = characterData[charName];
+                if (!char) return;
+                
+                const card = document.createElement('div');
+                card.className = 'character-card';
+                // Check data quality
+                const dataQuality = char.data_quality || {};
+                const isPlaceholder = dataQuality.has_placeholder || dataQuality.status === 'placeholder';
+                const isVerified = dataQuality.is_verified || dataQuality.status === 'verified';
+                
+                let qualityBadge = '';
+                if (isPlaceholder) {
+                    qualityBadge = '<div style="background: #fee2e2; color: #dc2626; padding: 8px; border-radius: 5px; margin-bottom: 10px; font-weight: bold; border: 2px solid #dc2626;"><span style="font-size: 1.2em;">⚠️</span> PLACEHOLDER DATA - NOT REAL</div>';
+                } else if (isVerified) {
+                    qualityBadge = '<div style="background: #d1fae5; color: #065f46; padding: 8px; border-radius: 5px; margin-bottom: 10px; font-weight: bold; border: 2px solid #10b981;"><span style="font-size: 1.2em;">✓</span> VERIFIED REAL DATA</div>';
+                }
+                
+                card.innerHTML = `
+                    ${qualityBadge}
+                    <div class="character-name">${charName}</div>
+                    <div class="character-stat">
+                        <span class="stat-label">Health:</span>
+                        <span class="stat-value">${char.health || 'N/A'}</span>
+                    </div>
+                    <div class="character-stat">
+                        <span class="stat-label">Archetype:</span>
+                        <span class="stat-value">${char.archetype || 'N/A'}</span>
+                    </div>
+                    <div class="character-stat">
+                        <span class="stat-label">Playstyle:</span>
+                        <span class="stat-value">${char.playstyle || 'N/A'}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+        
+        // Load moves table
+        function loadMoves() {
+            const container = document.getElementById('moves-container');
+            if (!container) {
+                console.error('moves-container not found');
+                return;
+            }
+            
+            const selectedCharEl = document.getElementById('move-character');
+            const sortByEl = document.getElementById('sort-moves');
+            const filterEl = document.getElementById('filter-moves');
+            
+            if (!selectedCharEl || !sortByEl || !filterEl) {
+                container.innerHTML = '<div class="loading">UI elements not found</div>';
+                return;
+            }
+            
+            const selectedChar = selectedCharEl.value;
+            const sortBy = sortByEl.value;
+            const filter = filterEl.value;
+            
+            let allMoves = [];
+            
+            // Gather all moves from characterData
+            if (characterData && Object.keys(characterData).length > 0) {
+                Object.keys(characterData).forEach(charName => {
+                    if (selectedChar === '' || selectedChar === charName) {
+                        const char = characterData[charName];
+                        if (char && char.moves && Array.isArray(char.moves)) {
+                            char.moves.forEach(move => {
+                                allMoves.push({...move, character: charName});
+                            });
+                        }
+                    }
+                });
+            }
+            
+            // Filter
+            if (filter === 'safe') {
+                allMoves = allMoves.filter(m => m.is_safe);
+            } else if (filter === 'unsafe') {
+                allMoves = allMoves.filter(m => !m.is_safe);
+            } else if (filter === 'assist') {
+                allMoves = allMoves.filter(m => m.requires_assist);
+            }
+            
+            // Sort
+            if (sortBy === 'startup') {
+                allMoves.sort((a, b) => (a.startup || 0) - (b.startup || 0));
+            } else if (sortBy === 'safety') {
+                allMoves.sort((a, b) => (b.on_block || 0) - (a.on_block || 0));
+            } else if (sortBy === 'damage') {
+                allMoves.sort((a, b) => (b.damage || 0) - (a.damage || 0));
+            } else if (sortBy === 'recovery') {
+                allMoves.sort((a, b) => (a.recovery || 0) - (b.recovery || 0));
+            }
+            
+            // Build table
+            let html = '<table class="move-table">';
+            html += '<thead><tr>';
+            html += '<th>Character</th>';
+            html += '<th>Move</th>';
+            html += '<th>Name</th>';
+            html += '<th>Startup</th>';
+            html += '<th>Recovery</th>';
+            html += '<th>On Block</th>';
+            html += '<th>Damage</th>';
+            html += '<th>Risk</th>';
+            html += '<th>Notes</th>';
+            html += '</tr></thead><tbody>';
+            
+            if (allMoves.length === 0) {
+                html += '<tr><td colspan="9" style="text-align: center; padding: 40px; color: #999;">No moves found. Make sure character_database.json exists and run: <code>python generate_database.py</code></td></tr>';
+            } else {
+                allMoves.forEach(move => {
+                    const safetyClass = move.on_block > 0 ? 'safety-safe' : 
+                                       move.on_block < -5 ? 'safety-unsafe' : 'safety-neutral';
+                    const riskClass = `risk-${move.risk_level || 'medium'}`;
+                    
+                    html += '<tr>';
+                    html += `<td><strong>${move.character}</strong></td>`;
+                    html += `<td><strong>${move.move}</strong></td>`;
+                    html += `<td>${move.name}</td>`;
+                    html += `<td>${move.startup > 0 ? move.startup + 'f' : (move.startup === 0 ? '0f' : '-')}</td>`;
+                    html += `<td>${move.recovery > 0 ? move.recovery + 'f' : (move.recovery === 0 ? '0f' : '-')}</td>`;
+                    html += `<td class="${safetyClass}">${move.on_block > 0 ? '+' : ''}${move.on_block !== 0 ? move.on_block : '0'}</td>`;
+                    html += `<td>${move.damage > 0 ? move.damage : '-'}</td>`;
+                    html += `<td><span class="${riskClass}">${(move.risk_level || 'medium').toUpperCase()}</span></td>`;
+                    html += `<td>`;
+                    if (move.requires_assist) html += '<span class="badge badge-assist">Needs Assist</span> ';
+                    if (move.is_antiair) html += '<span class="badge" style="background: #dbeafe; color: #1e40af;">Anti-Air</span> ';
+                    if (move.is_gap_closer) html += '<span class="badge" style="background: #d1fae5; color: #065f46;">Gap Closer</span>';
+                    html += `</td>`;
+                    html += '</tr>';
+                });
+            }
+            
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+        
+        // Initialize UI
+        function initializeUI() {
+            // Get all character names from database (preferred) or characterData
+            const allCharacters = [];
+            if (databaseData && databaseData.characters) {
+                allCharacters.push(...Object.keys(databaseData.characters));
+            } else if (characterData) {
+                allCharacters.push(...Object.keys(characterData));
+            }
+            
+            // Populate ALL character dropdowns with ALL characters
+            const charSelects = ['move-character', 'combo-character', 'efficiency-character'];
+            charSelects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                if (select) {
+                    // Set first option based on dropdown type
+                    select.innerHTML = selectId === 'move-character' ? '<option value="">All Characters</option>' : '<option value="">Select Character</option>';
+                    
+                    // Add all characters
+                    allCharacters.forEach(charName => {
+                        const option = document.createElement('option');
+                        option.value = charName;
+                        option.textContent = charName;
+                        select.appendChild(option);
+                    });
+                }
+            });
+            
+            // Load initial data
+            loadCharacterOverview();
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDatabase();
+        });
+        
+        // Load combos
+        function loadCombos() {
+            const container = document.getElementById('combos-container');
+            let selectedChar = document.getElementById('combo-character').value;
+            const difficultyFilter = document.getElementById('combo-difficulty').value;
+            
+            // Auto-select first character if none selected and only one character exists
+            if (!selectedChar && Object.keys(characterData).length === 1) {
+                selectedChar = Object.keys(characterData)[0];
+                document.getElementById('combo-character').value = selectedChar;
+            }
+            
+            if (!selectedChar) {
+                container.innerHTML = '<div class="loading" style="text-align: center; padding: 40px; color: #999;">Please select a character to view combos</div>';
+                return;
+            }
+            
+            if (!characterData[selectedChar] || !characterData[selectedChar].combos) {
+                container.innerHTML = '<div class="loading" style="text-align: center; padding: 40px; color: #999;">No combo data available for ' + selectedChar + '</div>';
+                return;
+            }
+            
+            let combos = characterData[selectedChar].combos;
+            
+            // Convert object to array if needed
+            if (!Array.isArray(combos)) {
+                combos = Object.values(combos);
+            }
+            
+            // Filter by difficulty
+            if (difficultyFilter !== 'all') {
+                combos = combos.filter(c => c.difficulty == difficultyFilter);
+            }
+            
+            // Sort by difficulty then hits
+            combos.sort((a, b) => {
+                if (a.difficulty !== b.difficulty) {
+                    return a.difficulty - b.difficulty;
+                }
+                return b.hits - a.hits;
+            });
+            
+            // Build combo cards
+            if (combos.length === 0) {
+                container.innerHTML = '<div class="loading" style="text-align: center; padding: 40px; color: #999;">No combos found matching the selected difficulty</div>';
+                return;
+            }
+            
+            let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px;">';
+            
+            combos.forEach(combo => {
+                const stars = '⭐'.repeat(combo.difficulty || 1);
+                html += `
+                    <div style="background: white; border: 2px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                        <div style="font-size: 1.3em; font-weight: bold; color: #1e3c72; margin-bottom: 10px;">${combo.name || 'Unnamed Combo'}</div>
+                        <div style="color: #f59e0b; margin-bottom: 10px; font-size: 1.1em;">${stars} Difficulty ${combo.difficulty || 1}/5</div>
+                        <div style="background: #f5f5f5; padding: 12px; border-radius: 5px; margin: 10px 0; font-family: 'Courier New', monospace; border-left: 3px solid #1e3c72;">
+                            <strong>Notation:</strong> ${combo.notation || 'N/A'}
+                        </div>
+                        <div style="color: #666; font-style: italic; margin-bottom: 10px;">${combo.english || combo.notation || ''}</div>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 15px 0;">
+                            <div style="background: #f9f9f9; padding: 8px; border-radius: 5px; text-align: center;">
+                                <div style="font-size: 0.85em; color: #666;">Hits</div>
+                                <div style="font-size: 1.2em; font-weight: bold; color: #1e3c72;">${combo.hits || '-'}</div>
+                            </div>
+                            <div style="background: #f9f9f9; padding: 8px; border-radius: 5px; text-align: center;">
+                                <div style="font-size: 0.85em; color: #666;">Damage</div>
+                                <div style="font-size: 1.2em; font-weight: bold; color: #1e3c72;">${combo.damage_estimate || combo.damage || '-'}</div>
+                            </div>
+                            <div style="background: #f9f9f9; padding: 8px; border-radius: 5px; text-align: center;">
+                                <div style="font-size: 0.85em; color: #666;">Meter</div>
+                                <div style="font-size: 1.2em; font-weight: bold; color: #1e3c72;">${combo.meter_use > 0 ? 'Yes' : 'No'}</div>
+                            </div>
+                            <div style="background: #f9f9f9; padding: 8px; border-radius: 5px; text-align: center;">
+                                <div style="font-size: 0.85em; color: #666;">Starter</div>
+                                <div style="font-size: 1.2em; font-weight: bold; color: #1e3c72;">${combo.starter || '-'}</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #e0e0e0;">
+                            <div style="margin-bottom: 5px;"><strong>When to Use:</strong> ${combo.situation || 'General use'}</div>
+                            <div style="font-size: 0.9em; color: #666;"><strong>Notes:</strong> ${combo.notes || 'No additional notes'}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+        }
+        
+        function loadFastest() {
+            const container = document.getElementById('fastest-container');
+            if (!container) {
+                console.error('fastest-container not found');
+                return;
+            }
+            
+            container.innerHTML = '<div class="loading">Loading fastest moves...</div>';
+            
+            // Check if database data is available
+            if (!databaseData || !databaseData.comparison) {
+                container.innerHTML = '<div class="loading">No fastest moves data available. Please run: python generate_database.py</div>';
+                return;
+            }
+            
+            // Get view mode
+            const viewSelect = document.getElementById('fastest-view');
+            const viewMode = viewSelect ? viewSelect.value : 'global';
+            
+            if (viewMode === 'global' && databaseData.comparison.fastest_moves_in_game) {
+                // Show fastest moves in the game (across all characters)
+                const fastestInGame = databaseData.comparison.fastest_moves_in_game;
+                
+                if (!fastestInGame || fastestInGame.length === 0) {
+                    container.innerHTML = '<div class="loading">No fastest moves data available.</div>';
+                    return;
+                }
+                
+                let html = `
+                    <div class="moves-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Character</th>
+                                    <th>Move</th>
+                                    <th>Name</th>
+                                    <th>Startup</th>
+                                    <th>Recovery</th>
+                                    <th>On Block</th>
+                                    <th>Damage</th>
+                                    <th>Risk</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                fastestInGame.forEach((move, index) => {
+                    const riskClass = move.risk_level === 'low' ? 'risk-low' : 
+                                    move.risk_level === 'high' ? 'risk-high' : 'risk-medium';
+                    const onBlockClass = move.on_block > 0 ? 'safe' : move.on_block < -5 ? 'unsafe' : 'neutral';
+                    const onBlockText = move.on_block > 0 ? `+${move.on_block}` : move.on_block;
+                    
+                    html += `
+                        <tr>
+                            <td><strong>#${index + 1}</strong></td>
+                            <td><strong style="color: #1e3c72; font-size: 1.1em;">${move.character}</strong></td>
+                            <td><strong>${move.move}</strong></td>
+                            <td>${move.name || move.move}</td>
+                            <td><span class="startup-badge" style="background: #667eea; color: white; font-weight: bold;">${move.startup}f</span></td>
+                            <td>${move.recovery}f</td>
+                            <td><span class="${onBlockClass}">${onBlockText}</span></td>
+                            <td>${move.damage || '-'}</td>
+                            <td><span class="badge ${riskClass}">${(move.risk_level && move.risk_level.toUpperCase()) || 'MEDIUM'}</span></td>
+                        </tr>
+                    `;
+                });
+                
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="margin-top: 20px; color: #666; font-size: 0.9em;">
+                        <strong>Note:</strong> Shows the fastest moves across ALL characters in the game, ranked by startup frames.
+                    </p>
+                `;
+                
+                container.innerHTML = html;
+            } else {
+                // Show fastest moves by character (original view)
+                const fastestMoves = databaseData.comparison.fastest_moves;
+                if (!fastestMoves) {
+                    container.innerHTML = '<div class="loading">No fastest moves data available.</div>';
+                    return;
+                }
+                
+                let html = '<div class="moves-grid">';
+                
+                // Iterate through each character
+                Object.keys(fastestMoves).forEach(charName => {
+                    const moves = fastestMoves[charName];
+                    if (!moves || moves.length === 0) return;
+                    
+                    // Get top 5 fastest moves for this character
+                    const topMoves = moves.slice(0, 5);
+                    
+                    html += `
+                        <div class="character-fastest-section">
+                            <h3 style="margin-bottom: 15px; color: #1e3c72; border-bottom: 2px solid #667eea; padding-bottom: 5px;">${charName}</h3>
+                            <div class="moves-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Move</th>
+                                            <th>Name</th>
+                                            <th>Startup</th>
+                                            <th>Recovery</th>
+                                            <th>On Block</th>
+                                            <th>Damage</th>
+                                            <th>Risk</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                    `;
+                    
+                    topMoves.forEach(move => {
+                        const riskClass = move.risk_level === 'low' ? 'risk-low' : 
+                                        move.risk_level === 'high' ? 'risk-high' : 'risk-medium';
+                        const onBlockClass = move.on_block > 0 ? 'safe' : move.on_block < -5 ? 'unsafe' : 'neutral';
+                        const onBlockText = move.on_block > 0 ? `+${move.on_block}` : move.on_block;
+                        
+                        html += `
+                            <tr>
+                                <td><strong>${move.move}</strong></td>
+                                <td>${move.name || move.move}</td>
+                                <td><span class="startup-badge">${move.startup}f</span></td>
+                                <td>${move.recovery}f</td>
+                                <td><span class="${onBlockClass}">${onBlockText}</span></td>
+                                <td>${move.damage || '-'}</td>
+                                <td><span class="badge ${riskClass}">${(move.risk_level && move.risk_level.toUpperCase()) || 'MEDIUM'}</span></td>
+                            </tr>
+                        `;
+                    });
+                    
+                    html += `
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+                container.innerHTML = html;
+            }
+        }
+        
+        function loadSafest() {
+            const container = document.getElementById('safest-container');
+            if (!container) {
+                console.error('safest-container not found');
+                return;
+            }
+            
+            container.innerHTML = '<div class="loading">Loading safety analysis...</div>';
+            
+            // Check if database data is available
+            if (!databaseData || !databaseData.characters) {
+                container.innerHTML = '<div class="loading">No data available. Please run: python generate_database.py</div>';
+                return;
+            }
+            
+            // Get view mode
+            const viewSelect = document.getElementById('safety-view');
+            const viewMode = viewSelect ? viewSelect.value : 'safest';
+            
+            let html = '';
+            
+            // Process each character
+            Object.keys(databaseData.characters).forEach(charName => {
+                const char = databaseData.characters[charName];
+                if (!char || !char.moves) return;
+                
+                const moves = char.moves;
+                
+                // Filter out grabs for safety analysis
+                const nonGrabMoves = moves.filter(m => !m.is_grab);
+                
+                // Calculate safest moves (best on_block)
+                const safest = [...nonGrabMoves]
+                    .sort((a, b) => b.on_block - a.on_block)
+                    .slice(0, 5);
+                
+                // Calculate dangerous moves (worst on_block, high recovery, needs assist)
+                const dangerous = [...nonGrabMoves]
+                    .filter(m => {
+                        // Very unsafe (< -8) OR requires assist OR high recovery (> 30)
+                        return m.on_block < -8 || m.requires_assist || m.recovery > 30;
+                    })
+                    .map(m => {
+                        // Calculate danger score
+                        let score = 0;
+                        if (m.on_block < -10) score += 3;
+                        else if (m.on_block < -8) score += 2;
+                        else if (m.on_block < -5) score += 1;
+                        if (m.recovery > 30) score += 2;
+                        else if (m.recovery > 20) score += 1;
+                        if (m.requires_assist) score += 3;
+                        if (m.risk_level === 'high') score += 2;
+                        else if (m.risk_level === 'medium') score += 1;
+                        return {...m, danger_score: score};
+                    })
+                    .sort((a, b) => b.danger_score - a.danger_score)
+                    .slice(0, 5);
+                
+                // Show based on view mode
+                if (viewMode === 'safest' || viewMode === 'both') {
+                    html += `
+                        <div class="character-fastest-section" style="margin-bottom: 30px;">
+                            <h3 style="margin-bottom: 15px; color: #10b981; border-bottom: 2px solid #10b981; padding-bottom: 5px;">
+                                ${charName} - Safest Moves
+                            </h3>
+                            <div class="moves-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Move</th>
+                                            <th>Name</th>
+                                            <th>On Block</th>
+                                            <th>Startup</th>
+                                            <th>Recovery</th>
+                                            <th>Damage</th>
+                                            <th>Safe</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                    `;
+                    
+                    safest.forEach(move => {
+                        const onBlockClass = move.on_block > 0 ? 'safe' : move.on_block < -5 ? 'unsafe' : 'neutral';
+                        const onBlockText = move.on_block > 0 ? `+${move.on_block}` : move.on_block;
+                        const safeMark = move.is_safe ? '✅ Yes' : '❌ No';
+                        
+                        html += `
+                            <tr>
+                                <td><strong>${move.move}</strong></td>
+                                <td>${move.name || move.move}</td>
+                                <td><span class="${onBlockClass}" style="font-weight: bold; font-size: 1.1em;">${onBlockText}</span></td>
+                                <td>${move.startup}f</td>
+                                <td>${move.recovery}f</td>
+                                <td>${move.damage || '-'}</td>
+                                <td>${safeMark}</td>
+                            </tr>
+                        `;
+                    });
+                    
+                    html += `
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                if (viewMode === 'dangerous' || viewMode === 'both') {
+                    if (dangerous.length > 0) {
+                        html += `
+                            <div class="character-fastest-section" style="margin-bottom: 30px;">
+                                <h3 style="margin-bottom: 15px; color: #ef4444; border-bottom: 2px solid #ef4444; padding-bottom: 5px;">
+                                    ${charName} - Dangerous Moves (Need Assist)
+                                </h3>
+                                <div class="moves-table">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Move</th>
+                                                <th>Name</th>
+                                                <th>On Block</th>
+                                                <th>Recovery</th>
+                                                <th>Risk</th>
+                                                <th>Needs Assist</th>
+                                                <th>Danger Score</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                        `;
+                        
+                        dangerous.forEach(move => {
+                            const onBlockClass = 'unsafe';
+                            const onBlockText = move.on_block > 0 ? `+${move.on_block}` : move.on_block;
+                            const assistMark = move.requires_assist ? '⚠️ YES' : 'No';
+                            const riskClass = move.risk_level === 'high' ? 'risk-high' : 
+                                            move.risk_level === 'low' ? 'risk-low' : 'risk-medium';
+                            
+                            html += `
+                                <tr style="background-color: ${move.danger_score >= 6 ? '#fee2e2' : move.danger_score >= 4 ? '#fef3c7' : '#f3f4f6'};">
+                                    <td><strong>${move.move}</strong></td>
+                                    <td>${move.name || move.move}</td>
+                                    <td><span class="${onBlockClass}" style="font-weight: bold; color: #dc2626;">${onBlockText}</span></td>
+                                    <td>${move.recovery}f</td>
+                                    <td><span class="badge ${riskClass}">${(move.risk_level && move.risk_level.toUpperCase()) || 'MEDIUM'}</span></td>
+                                    <td><strong>${assistMark}</strong></td>
+                                    <td><span style="font-weight: bold; color: ${move.danger_score >= 6 ? '#dc2626' : move.danger_score >= 4 ? '#d97706' : '#6b7280'};">${move.danger_score}/10</span></td>
+                                </tr>
+                            `;
+                        });
+                        
+                        html += `
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <p style="margin-top: 10px; color: #666; font-size: 0.9em;">
+                                    <strong>⚠️ Warning:</strong> These moves are unsafe on block. Only use with assist cover, after conditioning, or when opponent whiffs.
+                                </p>
+                            </div>
+                        `;
+                    } else {
+                        html += `
+                            <div class="character-fastest-section" style="margin-bottom: 30px;">
+                                <h3 style="margin-bottom: 15px; color: #10b981; border-bottom: 2px solid #10b981; padding-bottom: 5px;">
+                                    ${charName} - Dangerous Moves
+                                </h3>
+                                <p style="color: #10b981; padding: 20px; background: #d1fae5; border-radius: 5px;">
+                                    ✅ No highly dangerous moves identified. All moves are relatively safe or manageable.
+                                </p>
+                            </div>
+                        `;
+                    }
+                }
+            });
+            
+            if (!html) {
+                html = '<div class="loading">No data available</div>';
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        function loadEfficiency() {
+            const container = document.getElementById('efficiency-container');
+            if (!container) {
+                console.error('efficiency-container not found');
+                return;
+            }
+            
+            container.innerHTML = '<div class="loading">Loading efficiency rankings...</div>';
+            
+            // Calculate efficiency for all moves
+            if (!characterData || Object.keys(characterData).length === 0) {
+                container.innerHTML = '<div class="loading">No character data available. Please run: python generate_database.py</div>';
+                return;
+            }
+            
+            let allMoves = [];
+            
+            // Gather all moves from all characters
+            Object.keys(characterData).forEach(charName => {
+                const char = characterData[charName];
+                if (char && char.moves && Array.isArray(char.moves)) {
+                    char.moves.forEach(move => {
+                        // Calculate efficiency score: (damage * 2) - startup - recovery + (on_block * 3)
+                        // Higher is better
+                        const efficiency = (move.damage || 0) * 2 - (move.startup || 0) - (move.recovery || 0) + (move.on_block || 0) * 3;
+                        allMoves.push({
+                            ...move,
+                            character: charName,
+                            efficiency: efficiency
+                        });
+                    });
+                }
+            });
+            
+            // Sort by efficiency (highest first)
+            allMoves.sort((a, b) => (b.efficiency || 0) - (a.efficiency || 0));
+            
+            // Display top 20 most efficient moves
+            const topMoves = allMoves.slice(0, 20);
+            
+            let html = `
+                <div class="moves-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Character</th>
+                                <th>Move</th>
+                                <th>Name</th>
+                                <th>Efficiency</th>
+                                <th>Damage</th>
+                                <th>Startup</th>
+                                <th>On Block</th>
+                                <th>Risk</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            topMoves.forEach((move, index) => {
+                const riskClass = move.risk_level === 'low' ? 'risk-low' : 
+                                move.risk_level === 'high' ? 'risk-high' : 'risk-medium';
+                const onBlockClass = move.on_block > 0 ? 'safe' : move.on_block < -5 ? 'unsafe' : 'neutral';
+                const onBlockText = move.on_block > 0 ? `+${move.on_block}` : move.on_block;
+                
+                html += `
+                    <tr>
+                        <td><strong>#${index + 1}</strong></td>
+                        <td><strong>${move.character}</strong></td>
+                        <td><strong>${move.move || move.input}</strong></td>
+                        <td>${move.name || move.move || move.input}</td>
+                        <td><span class="startup-badge" style="background: #667eea; color: white;">${Math.round(move.efficiency || 0)}</span></td>
+                        <td>${move.damage || '-'}</td>
+                        <td>${move.startup || '-'}f</td>
+                        <td><span class="${onBlockClass}">${onBlockText}</span></td>
+                        <td><span class="badge ${riskClass}">${(move.risk_level && move.risk_level.toUpperCase()) || 'MEDIUM'}</span></td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+                <p style="margin-top: 20px; color: #666; font-size: 0.9em;">
+                    <strong>Efficiency Formula:</strong> (Damage × 2) - Startup - Recovery + (On Block × 3)
+                    <br>Higher scores indicate better overall move efficiency (damage, speed, and safety combined).
+                </p>
+            `;
+            
+            container.innerHTML = html;
+        }
+        
+        function sortCharacters() {
+            loadCharacterOverview();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+================================================================================
+BLITZCRANK CHEAT SHEET
+================================================================================
+
+Archetype: Grappler
+Health: 1050
+Playstyle: Point character with risky but rewarding gameplan. Get close, then hit or grab.
+
+================================================================================
+BNB COMBOS (BREAD AND BUTTER)
+================================================================================
+
+--- Light Chain (* difficulty) ---
+  Notation: 5L > 5L > 5S1
+  English: Jab, jab, Rocket Grab
+  Hits: 3
+  Damage: Low
+  Situation: Basic hit confirm from light hit
+  Notes: Easiest combo, works from any light hit
+
+--- Jump-In Combo (** difficulty) ---
+  Notation: j.M > 5L > 5M > 5H > 5S1
+  English: Jump Medium, Light, Medium, Heavy, Rocket Grab
+  Hits: 5
+  Damage: Medium
+  Situation: After landing jump-in attack
+  Notes: Most common BnB, good damage
+
+--- Rocket Grab Confirm (** difficulty) ---
+  Notation: 5S1 (hit) > dash > 5L > 5M > 2S1
+  English: Rocket Grab, dash, Light, Medium, Air Purifier
+  Hits: 5
+  Damage: Medium
+  Situation: After Rocket Grab hits from distance
+  Notes: Ends with +44 advantage, key combo
+
+--- Low Starter (*** difficulty) ---
+  Notation: 2L > 2M > 5S1 > dash > 5L > 5H
+  English: Crouch Light, Crouch Medium, Rocket Grab, dash, Light, Heavy
+  Hits: 6
+  Damage: Medium
+  Situation: Mix-up with low attacks
+  Notes: Good for low/high mixup
+
+--- Assist Extension (*** difficulty) ---
+  Notation: 5L > 5M > [Assist] > 5H > 5S1 > dash > 2S1
+  English: Light, Medium, Assist call, Heavy, Rocket Grab, dash, Air Purifier
+  Hits: 7
+  Damage: High
+  Situation: Maximum damage with assist
+  Notes: Best damage without meter, ends with +44
+
+--- Anti-Air Confirm (*** difficulty) ---
+  Notation: 2S1 (hit) > 5L > 5M > 5H > 5S1
+  English: Air Purifier hits, Light, Medium, Heavy, Rocket Grab
+  Hits: 5
+  Damage: Medium
+  Situation: After Air Purifier hits jumper
+  Notes: You're already +44, safe to attempt
+
+--- Command Grab Setup (**** difficulty) ---
+  Notation: 5L > 5M > [Assist] > 2S2 OR 5L
+  English: Light, Medium, Assist, then Command Grab OR Normal
+  Hits: 3
+  Damage: Variable
+  Situation: 50-50 mixup situation
+  Notes: Win condition! Opponent must guess block or jump
+
+--- Super Ender (**** difficulty) ---
+  Notation: j.H > 5L > 5M > 5H > [Assist] > Super
+  English: Jump Heavy, Light, Medium, Heavy, Assist, Super
+  Hits: 8
+  Damage: Maximum
+  Situation: Finish the round with max damage
+  Notes: Only use when you have meter and need to finish
+
+--- COMBO GOALS BY SKILL LEVEL ---
+
+BEGINNER:
+  Average Combo Length: 3 hits
+  Max Combo Length: 5 hits
+  Combos to Learn: Light Chain, Jump-In Combo, Rocket Grab Confirm
+
+INTERMEDIATE:
+  Average Combo Length: 5 hits
+  Max Combo Length: 7 hits
+  Combos to Learn: Low Starter, Assist Extension, Anti-Air Confirm
+
+ADVANCED:
+  Average Combo Length: 7 hits
+  Max Combo Length: 10 hits
+  Combos to Learn: Command Grab Setup, Super Ender
+
+EXPERT:
+  Average Combo Length: 10 hits
+  Max Combo Length: 15 hits
+  Combos to Learn: 
+
+================================================================================
+MOVE DATA WITH RECOVERY TIMES
+================================================================================
+
+--- SAFE MOVES (Can use freely) ---
+
+5M - 5M
+  Recovery: 0 frames
+  Total Frames: 0
+  On Block: +0 frames
+  Risk Level: MEDIUM
+
+5H - 5H
+  Recovery: 0 frames
+  Total Frames: 0
+  On Block: +0 frames
+  Risk Level: MEDIUM
+
+2L - 2L
+  Recovery: 0 frames
+  Total Frames: 0
+  On Block: +0 frames
+  Risk Level: MEDIUM
+
+2M - 2M
+  Recovery: 0 frames
+  Total Frames: 0
+  On Block: +0 frames
+  Risk Level: MEDIUM
+
+2H - 2H
+  Recovery: 0 frames
+  Total Frames: 0
+  On Block: +0 frames
+  Risk Level: MEDIUM
+
+5S1 - Rocket Grab
+  Recovery: 0 frames
+  Total Frames: 0
+  On Block: +0 frames
+  Risk Level: LOW
+  Usage: Core move for controlling space. Safe at range. Use to force opponent into grab range. Enhanced version adds shock effect.
+
+2S1 - Air Purifier
+  Recovery: 119 frames
+  Total Frames: 153
+  On Block: +44 frames
+  Risk Level: LOW
+  Usage: SAFEST MOVE (+44 on block!). Perfect anti-air. Despite 119f recovery, massive frame advantage makes it safe. Use against jumpers. Never needs assist.
+
+--- UNSAFE MOVES (Use with caution) ---
+
+5L - 5L
+  Recovery: 12 frames
+  Total Frames: 25
+  On Block: -2 frames
+  Risk Level: LOW
+  Usage: Slightly unsafe (-2) but can be made safe with cancels or spacing. Good for frame traps after restands.
+
+--- HIGH RISK MOVES (Only use with setup/assist) ---
+
+2S2 - Garbage Collection
+  Recovery: 0 frames
+  Total Frames: 0
+  On Block: +0 frames
+  Risk Level: HIGH
+  Requires Assist: True
+  Requires Setup: True
+  Usage: UNBLOCKABLE command grab. HIGH RISK - only use with assist cover OR when opponent whiffs big move OR after conditioning. Very punishable on whiff. Enhanced version has armor.
+
+================================================================================
+STRATEGIC RECOMMENDATIONS
+================================================================================
+
+SAFE TO USE FREELY:
+  - 2S1 (Air Purifier) - +44 on block, safest move
+  - 5S1 (Rocket Grab) - Safe at range, controls space
+
+REQUIRES ASSIST COVER:
+  - 2S2 (Garbage Collection) - Command grab needs assist for mixup safety
+  - Whiffed heavy normals - Call assist to cover recovery
+
+ONLY ON OPPONENT MISTAKE:
+  - 2S2 (Garbage Collection) without assist - Only if opponent whiffs big move
+  - Raw command grab - Only after heavy conditioning or on hard read
+
+ANTI-AIR OPTIONS:
+  - 2S1 (Air Purifier) - Best option, +44 on block even if they land
+  - j.S1 (Air Rocket Grab) - Air-to-air option
+
+================================================================================
+PUNISH OPPORTUNITIES
+================================================================================
+
+WHEN OPPONENT WHIFFS:
+  - 2S2 (Garbage Collection) - Free command grab
+  - 5S1 (Rocket Grab) into combo
+  - Jump-in full combo
+
+WHEN OPPONENT BLOCKS TOO MUCH:
+  - 2S2 (Garbage Collection) with assist
+  - Regular throw
+
+WHEN OPPONENT IS VERY MINUS:
+  - Fastest normal into combo
+  - 2S2 if close
+  - Super if meter available
+
+================================================================================
+FRAME ADVANTAGE GUIDE
+================================================================================
+
++10 or more: HUGE advantage - guaranteed pressure or mixup
++1 to +9: Good advantage - your turn to attack
+0 to -2: Slightly unsafe - can contest or retreat
+-3 to -5: Unsafe - opponent can attack
+-6 or worse: VERY UNSAFE - opponent gets full punish
+
+================================================================================
+STRENGTHS
+================================================================================
+  + Rocket Grab forces opponent close
+  + Command grab (Garbage Collection) for mix-ups
+  + Excellent assist character
+  + Steam Steam enhanced specials
+  + Air Purifier assist provides restand
+
+================================================================================
+WEAKNESSES
+================================================================================
+  - Risky neutral
+  - Slow dash speed
+  - Committal normals
+  - Bad defense
+  - Dependency on 50-50 mix-ups
