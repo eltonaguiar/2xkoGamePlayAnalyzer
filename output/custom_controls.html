@@ -494,6 +494,11 @@
             const controls = getControls();
             const display = document.getElementById('moveDisplay');
             
+            if (!display) {
+                console.error('moveDisplay element not found');
+                return;
+            }
+            
             let html = '';
             
             // Legend

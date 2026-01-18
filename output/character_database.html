@@ -442,6 +442,11 @@
         <header>
             <h1>2XKO Character Database</h1>
             <p class="subtitle">Complete move data, frame data, and combo information for all characters</p>
+            <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; font-size: 0.9em;">
+                <strong>Data Quality:</strong> 
+                <span style="color: #10b981;">✓ Blitzcrank (Verified)</span> | 
+                <span style="color: #f59e0b;">⚠️ 10 characters (Placeholder - Not Real)</span>
+            </div>
         </header>
         
         <div class="tabs">
@@ -607,16 +612,21 @@
                 
                 // Convert database format to characterData format for compatibility
                 if (databaseData && databaseData.characters) {
-                    Object.keys(databaseData.characters).forEach(charName => {
+                    const charKeys = Object.keys(databaseData.characters);
+                    for (let i = 0; i < charKeys.length; i++) {
+                        const charName = charKeys[i];
                         const char = databaseData.characters[charName];
-                        characterData[charName] = {
-                            health: char.info.health,
-                            archetype: char.info.archetype,
-                            playstyle: char.info.playstyle,
-                            moves: char.moves || [],  // Already in array format
-                            combos: Object.values(char.bnb_combos || {})
-                        };
-                    });
+                        if (char && char.info) {
+                            characterData[charName] = {
+                                health: char.info.health || 0,
+                                archetype: char.info.archetype || '',
+                                playstyle: char.info.playstyle || '',
+                                moves: char.moves || [],  // Already in array format
+                                combos: Object.values(char.bnb_combos || {}),
+                                data_quality: char.data_quality || {}
+                            };
+                        }
+                    }
                 }
                 
                 // Initialize UI after data loads
@@ -641,38 +651,62 @@
         
         // Tab switching
         function showTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected tab
-            document.getElementById(tabName + '-tab').classList.add('active');
-            event.target.classList.add('active');
-            
-            // Load appropriate data
-            switch(tabName) {
-                case 'overview':
-                    loadCharacterOverview();
-                    break;
-                case 'moves':
-                    loadMoves();
-                    break;
-                case 'combos':
-                    loadCombos();
-                    break;
-                case 'fastest':
-                    loadFastest();
-                    break;
-                case 'safest':
-                    loadSafest();
-                    break;
-                case 'efficiency':
-                    loadEfficiency();
-                    break;
+            try {
+                // Hide all tabs
+                const allTabs = document.querySelectorAll('.tab-content');
+                const allTabButtons = document.querySelectorAll('.tab');
+                
+                allTabs.forEach(tab => {
+                    if (tab) tab.classList.remove('active');
+                });
+                allTabButtons.forEach(tab => {
+                    if (tab) tab.classList.remove('active');
+                });
+                
+                // Show selected tab
+                const targetTab = document.getElementById(tabName + '-tab');
+                if (!targetTab) {
+                    console.error(`Tab ${tabName}-tab not found`);
+                    return;
+                }
+                targetTab.classList.add('active');
+                
+                if (event && event.target) {
+                    event.target.classList.add('active');
+                } else {
+                    // Fallback: find button by text
+                    allTabButtons.forEach(btn => {
+                        if (btn.textContent && btn.textContent.toLowerCase().includes(tabName.toLowerCase())) {
+                            btn.classList.add('active');
+                        }
+                    });
+                }
+                
+                // Load appropriate data
+                switch(tabName) {
+                    case 'overview':
+                        loadCharacterOverview();
+                        break;
+                    case 'moves':
+                        loadMoves();
+                        break;
+                    case 'combos':
+                        loadCombos();
+                        break;
+                    case 'fastest':
+                        loadFastest();
+                        break;
+                    case 'safest':
+                        loadSafest();
+                        break;
+                    case 'efficiency':
+                        loadEfficiency();
+                        break;
+                    default:
+                        console.warn(`Unknown tab: ${tabName}`);
+                }
+            } catch (error) {
+                console.error('Error switching tabs:', error);
             }
         }
         
@@ -745,9 +779,9 @@
                 return;
             }
             
-            const selectedChar = selectedCharEl.value;
-            const sortBy = sortByEl.value;
-            const filter = filterEl.value;
+            const selectedChar = (selectedCharEl && selectedCharEl.value) || '';
+            const sortBy = (sortByEl && sortByEl.value) || 'startup';
+            const filter = (filterEl && filterEl.value) || 'all';
             
             let allMoves = [];
             
@@ -799,10 +833,11 @@
             html += '<th>Notes</th>';
             html += '</tr></thead><tbody>';
             
-            if (allMoves.length === 0) {
+            if (!allMoves || allMoves.length === 0) {
                 html += '<tr><td colspan="9" style="text-align: center; padding: 40px; color: #999;">No moves found. Make sure character_database.json exists and run: <code>python generate_database.py</code></td></tr>';
             } else {
                 allMoves.forEach(move => {
+                    if (!move) return; // Skip null/undefined moves
                     const safetyClass = move.on_block > 0 ? 'safety-safe' : 
                                        move.on_block < -5 ? 'safety-unsafe' : 'safety-neutral';
                     const riskClass = `risk-${move.risk_level || 'medium'}`;
@@ -841,21 +876,25 @@
             
             // Populate ALL character dropdowns with ALL characters
             const charSelects = ['move-character', 'combo-character', 'efficiency-character'];
-            charSelects.forEach(selectId => {
+            for (let i = 0; i < charSelects.length; i++) {
+                const selectId = charSelects[i];
                 const select = document.getElementById(selectId);
                 if (select) {
                     // Set first option based on dropdown type
                     select.innerHTML = selectId === 'move-character' ? '<option value="">All Characters</option>' : '<option value="">Select Character</option>';
                     
-                    // Add all characters
-                    allCharacters.forEach(charName => {
+                    // Add all characters using DocumentFragment for better performance
+                    const fragment = document.createDocumentFragment();
+                    for (let j = 0; j < allCharacters.length; j++) {
+                        const charName = allCharacters[j];
                         const option = document.createElement('option');
                         option.value = charName;
                         option.textContent = charName;
-                        select.appendChild(option);
-                    });
+                        fragment.appendChild(option);
+                    }
+                    select.appendChild(fragment);
                 }
-            });
+            }
             
             // Load initial data
             loadCharacterOverview();
@@ -869,8 +908,16 @@
         // Load combos
         function loadCombos() {
             const container = document.getElementById('combos-container');
-            let selectedChar = document.getElementById('combo-character').value;
-            const difficultyFilter = document.getElementById('combo-difficulty').value;
+            const comboCharEl = document.getElementById('combo-character');
+            const difficultyEl = document.getElementById('combo-difficulty');
+            
+            if (!comboCharEl || !difficultyEl) {
+                container.innerHTML = '<div class="loading">UI elements not found</div>';
+                return;
+            }
+            
+            let selectedChar = comboCharEl.value || '';
+            const difficultyFilter = difficultyEl.value || 'all';
             
             // Auto-select first character if none selected and only one character exists
             if (!selectedChar && Object.keys(characterData).length === 1) {
@@ -917,7 +964,8 @@
             let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px;">';
             
             combos.forEach(combo => {
-                const stars = '⭐'.repeat(combo.difficulty || 1);
+                if (!combo) return; // Skip null/undefined combos
+                const stars = '⭐'.repeat(Math.max(1, combo.difficulty || 1));
                 html += `
                     <div style="background: white; border: 2px solid #e0e0e0; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
                         <div style="font-size: 1.3em; font-weight: bold; color: #1e3c72; margin-bottom: 10px;">${combo.name || 'Unnamed Combo'}</div>
@@ -1004,22 +1052,24 @@
                 `;
                 
                 fastestInGame.forEach((move, index) => {
-                    const riskClass = move.risk_level === 'low' ? 'risk-low' : 
-                                    move.risk_level === 'high' ? 'risk-high' : 'risk-medium';
-                    const onBlockClass = move.on_block > 0 ? 'safe' : move.on_block < -5 ? 'unsafe' : 'neutral';
-                    const onBlockText = move.on_block > 0 ? `+${move.on_block}` : move.on_block;
+                    const riskLevel = move.risk_level || 'medium';
+                    const riskClass = riskLevel === 'low' ? 'risk-low' : 
+                                    riskLevel === 'high' ? 'risk-high' : 'risk-medium';
+                    const onBlock = move.on_block || 0;
+                    const onBlockClass = onBlock > 0 ? 'safe' : onBlock < -5 ? 'unsafe' : 'neutral';
+                    const onBlockText = onBlock > 0 ? `+${onBlock}` : onBlock;
                     
                     html += `
                         <tr>
                             <td><strong>#${index + 1}</strong></td>
-                            <td><strong style="color: #1e3c72; font-size: 1.1em;">${move.character}</strong></td>
-                            <td><strong>${move.move}</strong></td>
-                            <td>${move.name || move.move}</td>
-                            <td><span class="startup-badge" style="background: #667eea; color: white; font-weight: bold;">${move.startup}f</span></td>
-                            <td>${move.recovery}f</td>
+                            <td><strong style="color: #1e3c72; font-size: 1.1em;">${move.character || 'Unknown'}</strong></td>
+                            <td><strong>${move.move || move.input || '-'}</strong></td>
+                            <td>${move.name || move.move || move.input || '-'}</td>
+                            <td><span class="startup-badge" style="background: #667eea; color: white; font-weight: bold;">${move.startup !== undefined ? move.startup + 'f' : '-'}</span></td>
+                            <td>${move.recovery !== undefined ? move.recovery + 'f' : '-'}</td>
                             <td><span class="${onBlockClass}">${onBlockText}</span></td>
-                            <td>${move.damage || '-'}</td>
-                            <td><span class="badge ${riskClass}">${(move.risk_level && move.risk_level.toUpperCase()) || 'MEDIUM'}</span></td>
+                            <td>${(move.damage && move.damage > 0) ? move.damage : '-'}</td>
+                            <td><span class="badge ${riskClass}">${riskLevel.toUpperCase()}</span></td>
                         </tr>
                     `;
                 });
@@ -1036,9 +1086,9 @@
                 container.innerHTML = html;
             } else {
                 // Show fastest moves by character (original view)
-                const fastestMoves = databaseData.comparison.fastest_moves;
-                if (!fastestMoves) {
-                    container.innerHTML = '<div class="loading">No fastest moves data available.</div>';
+                const fastestMoves = databaseData && databaseData.comparison ? databaseData.comparison.fastest_moves : null;
+                if (!fastestMoves || typeof fastestMoves !== 'object') {
+                    container.innerHTML = '<div class="loading">No fastest moves data available. Please run: python generate_database.py</div>';
                     return;
                 }
                 
@@ -1047,7 +1097,7 @@
                 // Iterate through each character
                 Object.keys(fastestMoves).forEach(charName => {
                     const moves = fastestMoves[charName];
-                    if (!moves || moves.length === 0) return;
+                    if (!moves || !Array.isArray(moves) || moves.length === 0) return;
                     
                     // Get top 5 fastest moves for this character
                     const topMoves = moves.slice(0, 5);
@@ -1072,20 +1122,23 @@
                     `;
                     
                     topMoves.forEach(move => {
-                        const riskClass = move.risk_level === 'low' ? 'risk-low' : 
-                                        move.risk_level === 'high' ? 'risk-high' : 'risk-medium';
-                        const onBlockClass = move.on_block > 0 ? 'safe' : move.on_block < -5 ? 'unsafe' : 'neutral';
-                        const onBlockText = move.on_block > 0 ? `+${move.on_block}` : move.on_block;
+                        if (!move) return; // Skip null/undefined moves
+                        const riskLevel = move.risk_level || 'medium';
+                        const riskClass = riskLevel === 'low' ? 'risk-low' : 
+                                        riskLevel === 'high' ? 'risk-high' : 'risk-medium';
+                        const onBlock = move.on_block || 0;
+                        const onBlockClass = onBlock > 0 ? 'safe' : onBlock < -5 ? 'unsafe' : 'neutral';
+                        const onBlockText = onBlock > 0 ? `+${onBlock}` : onBlock;
                         
                         html += `
                             <tr>
-                                <td><strong>${move.move}</strong></td>
-                                <td>${move.name || move.move}</td>
-                                <td><span class="startup-badge">${move.startup}f</span></td>
-                                <td>${move.recovery}f</td>
+                                <td><strong>${move.move || move.input || '-'}</strong></td>
+                                <td>${move.name || move.move || move.input || '-'}</td>
+                                <td><span class="startup-badge">${move.startup !== undefined ? move.startup + 'f' : '-'}</span></td>
+                                <td>${move.recovery !== undefined ? move.recovery + 'f' : '-'}</td>
                                 <td><span class="${onBlockClass}">${onBlockText}</span></td>
-                                <td>${move.damage || '-'}</td>
-                                <td><span class="badge ${riskClass}">${(move.risk_level && move.risk_level.toUpperCase()) || 'MEDIUM'}</span></td>
+                                <td>${(move.damage && move.damage > 0) ? move.damage : '-'}</td>
+                                <td><span class="badge ${riskClass}">${riskLevel.toUpperCase()}</span></td>
                             </tr>
                         `;
                     });
@@ -1125,14 +1178,19 @@
             let html = '';
             
             // Process each character
+            if (!databaseData || !databaseData.characters) {
+                container.innerHTML = '<div class="loading">No character data available. Please run: python generate_database.py</div>';
+                return;
+            }
+            
             Object.keys(databaseData.characters).forEach(charName => {
                 const char = databaseData.characters[charName];
-                if (!char || !char.moves) return;
+                if (!char || !char.moves || !Array.isArray(char.moves)) return;
                 
                 const moves = char.moves;
                 
                 // Filter out grabs for safety analysis
-                const nonGrabMoves = moves.filter(m => !m.is_grab);
+                const nonGrabMoves = moves.filter(m => m && !m.is_grab);
                 
                 // Calculate safest moves (best on_block)
                 const safest = [...nonGrabMoves]
@@ -1142,23 +1200,31 @@
                 // Calculate dangerous moves (worst on_block, high recovery, needs assist)
                 const dangerous = [...nonGrabMoves]
                     .filter(m => {
+                        if (!m) return false;
+                        const onBlock = m.on_block || 0;
+                        const recovery = m.recovery || 0;
                         // Very unsafe (< -8) OR requires assist OR high recovery (> 30)
-                        return m.on_block < -8 || m.requires_assist || m.recovery > 30;
+                        return onBlock < -8 || m.requires_assist || recovery > 30;
                     })
                     .map(m => {
+                        if (!m) return null;
                         // Calculate danger score
                         let score = 0;
-                        if (m.on_block < -10) score += 3;
-                        else if (m.on_block < -8) score += 2;
-                        else if (m.on_block < -5) score += 1;
-                        if (m.recovery > 30) score += 2;
-                        else if (m.recovery > 20) score += 1;
+                        const onBlock = m.on_block || 0;
+                        const recovery = m.recovery || 0;
+                        if (onBlock < -10) score += 3;
+                        else if (onBlock < -8) score += 2;
+                        else if (onBlock < -5) score += 1;
+                        if (recovery > 30) score += 2;
+                        else if (recovery > 20) score += 1;
                         if (m.requires_assist) score += 3;
-                        if (m.risk_level === 'high') score += 2;
-                        else if (m.risk_level === 'medium') score += 1;
+                        const riskLevel = m.risk_level || 'medium';
+                        if (riskLevel === 'high') score += 2;
+                        else if (riskLevel === 'medium') score += 1;
                         return {...m, danger_score: score};
                     })
-                    .sort((a, b) => b.danger_score - a.danger_score)
+                    .filter(m => m !== null) // Remove null entries
+                    .sort((a, b) => (b.danger_score || 0) - (a.danger_score || 0))
                     .slice(0, 5);
                 
                 // Show based on view mode
@@ -1185,18 +1251,20 @@
                     `;
                     
                     safest.forEach(move => {
-                        const onBlockClass = move.on_block > 0 ? 'safe' : move.on_block < -5 ? 'unsafe' : 'neutral';
-                        const onBlockText = move.on_block > 0 ? `+${move.on_block}` : move.on_block;
-                        const safeMark = move.is_safe ? '✅ Yes' : '❌ No';
+                        if (!move) return; // Skip null/undefined moves
+                        const onBlock = move.on_block || 0;
+                        const onBlockClass = onBlock > 0 ? 'safe' : onBlock < -5 ? 'unsafe' : 'neutral';
+                        const onBlockText = onBlock > 0 ? `+${onBlock}` : onBlock;
+                        const safeMark = move.is_safe ? 'Yes' : 'No';
                         
                         html += `
                             <tr>
-                                <td><strong>${move.move}</strong></td>
-                                <td>${move.name || move.move}</td>
+                                <td><strong>${move.move || move.input || '-'}</strong></td>
+                                <td>${move.name || move.move || move.input || '-'}</td>
                                 <td><span class="${onBlockClass}" style="font-weight: bold; font-size: 1.1em;">${onBlockText}</span></td>
-                                <td>${move.startup}f</td>
-                                <td>${move.recovery}f</td>
-                                <td>${move.damage || '-'}</td>
+                                <td>${move.startup !== undefined ? move.startup + 'f' : '-'}</td>
+                                <td>${move.recovery !== undefined ? move.recovery + 'f' : '-'}</td>
+                                <td>${(move.damage && move.damage > 0) ? move.damage : '-'}</td>
                                 <td>${safeMark}</td>
                             </tr>
                         `;
@@ -1234,21 +1302,25 @@
                         `;
                         
                         dangerous.forEach(move => {
+                            if (!move) return; // Skip null/undefined moves
                             const onBlockClass = 'unsafe';
-                            const onBlockText = move.on_block > 0 ? `+${move.on_block}` : move.on_block;
-                            const assistMark = move.requires_assist ? '⚠️ YES' : 'No';
-                            const riskClass = move.risk_level === 'high' ? 'risk-high' : 
-                                            move.risk_level === 'low' ? 'risk-low' : 'risk-medium';
+                            const onBlock = move.on_block || 0;
+                            const onBlockText = onBlock > 0 ? `+${onBlock}` : onBlock;
+                            const assistMark = move.requires_assist ? 'YES' : 'No';
+                            const riskLevel = move.risk_level || 'medium';
+                            const riskClass = riskLevel === 'high' ? 'risk-high' : 
+                                            riskLevel === 'low' ? 'risk-low' : 'risk-medium';
+                            const dangerScore = move.danger_score || 0;
                             
                             html += `
-                                <tr style="background-color: ${move.danger_score >= 6 ? '#fee2e2' : move.danger_score >= 4 ? '#fef3c7' : '#f3f4f6'};">
-                                    <td><strong>${move.move}</strong></td>
-                                    <td>${move.name || move.move}</td>
+                                <tr style="background-color: ${dangerScore >= 6 ? '#fee2e2' : dangerScore >= 4 ? '#fef3c7' : '#f3f4f6'};">
+                                    <td><strong>${move.move || move.input || '-'}</strong></td>
+                                    <td>${move.name || move.move || move.input || '-'}</td>
                                     <td><span class="${onBlockClass}" style="font-weight: bold; color: #dc2626;">${onBlockText}</span></td>
-                                    <td>${move.recovery}f</td>
-                                    <td><span class="badge ${riskClass}">${(move.risk_level && move.risk_level.toUpperCase()) || 'MEDIUM'}</span></td>
+                                    <td>${move.recovery !== undefined ? move.recovery + 'f' : '-'}</td>
+                                    <td><span class="badge ${riskClass}">${riskLevel.toUpperCase()}</span></td>
                                     <td><strong>${assistMark}</strong></td>
-                                    <td><span style="font-weight: bold; color: ${move.danger_score >= 6 ? '#dc2626' : move.danger_score >= 4 ? '#d97706' : '#6b7280'};">${move.danger_score}/10</span></td>
+                                    <td><span style="font-weight: bold; color: ${dangerScore >= 6 ? '#dc2626' : dangerScore >= 4 ? '#d97706' : '#6b7280'};">${dangerScore}/10</span></td>
                                 </tr>
                             `;
                         });
@@ -1306,9 +1378,14 @@
                 const char = characterData[charName];
                 if (char && char.moves && Array.isArray(char.moves)) {
                     char.moves.forEach(move => {
+                        if (!move) return; // Skip null/undefined moves
                         // Calculate efficiency score: (damage * 2) - startup - recovery + (on_block * 3)
                         // Higher is better
-                        const efficiency = (move.damage || 0) * 2 - (move.startup || 0) - (move.recovery || 0) + (move.on_block || 0) * 3;
+                        const damage = move.damage || 0;
+                        const startup = move.startup || 0;
+                        const recovery = move.recovery || 0;
+                        const onBlock = move.on_block || 0;
+                        const efficiency = (damage * 2) - startup - recovery + (onBlock * 3);
                         allMoves.push({
                             ...move,
                             character: charName,
@@ -1344,22 +1421,25 @@
             `;
             
             topMoves.forEach((move, index) => {
-                const riskClass = move.risk_level === 'low' ? 'risk-low' : 
-                                move.risk_level === 'high' ? 'risk-high' : 'risk-medium';
-                const onBlockClass = move.on_block > 0 ? 'safe' : move.on_block < -5 ? 'unsafe' : 'neutral';
-                const onBlockText = move.on_block > 0 ? `+${move.on_block}` : move.on_block;
+                if (!move) return; // Skip null/undefined moves
+                const riskLevel = move.risk_level || 'medium';
+                const riskClass = riskLevel === 'low' ? 'risk-low' : 
+                                riskLevel === 'high' ? 'risk-high' : 'risk-medium';
+                const onBlock = move.on_block || 0;
+                const onBlockClass = onBlock > 0 ? 'safe' : onBlock < -5 ? 'unsafe' : 'neutral';
+                const onBlockText = onBlock > 0 ? `+${onBlock}` : onBlock;
                 
                 html += `
                     <tr>
                         <td><strong>#${index + 1}</strong></td>
-                        <td><strong>${move.character}</strong></td>
-                        <td><strong>${move.move || move.input}</strong></td>
-                        <td>${move.name || move.move || move.input}</td>
+                        <td><strong>${move.character || 'Unknown'}</strong></td>
+                        <td><strong>${move.move || move.input || '-'}</strong></td>
+                        <td>${move.name || move.move || move.input || '-'}</td>
                         <td><span class="startup-badge" style="background: #667eea; color: white;">${Math.round(move.efficiency || 0)}</span></td>
-                        <td>${move.damage || '-'}</td>
-                        <td>${move.startup || '-'}f</td>
+                        <td>${(move.damage && move.damage > 0) ? move.damage : '-'}</td>
+                        <td>${move.startup !== undefined ? move.startup + 'f' : '-'}</td>
                         <td><span class="${onBlockClass}">${onBlockText}</span></td>
-                        <td><span class="badge ${riskClass}">${(move.risk_level && move.risk_level.toUpperCase()) || 'MEDIUM'}</span></td>
+                        <td><span class="badge ${riskClass}">${riskLevel.toUpperCase()}</span></td>
                     </tr>
                 `;
             });
@@ -1378,7 +1458,44 @@
         }
         
         function sortCharacters() {
-            loadCharacterOverview();
+            const sortSelect = document.getElementById('sort-characters');
+            if (!sortSelect) return;
+            
+            const sortBy = sortSelect.value || 'name';
+            const container = document.getElementById('character-grid');
+            if (!container) return;
+            
+            // Get all character cards
+            const cards = Array.from(container.children);
+            if (cards.length === 0) {
+                loadCharacterOverview();
+                return;
+            }
+            
+            // Sort cards based on sortBy
+            cards.sort((a, b) => {
+                const nameElA = a.querySelector('.character-name');
+                const nameElB = b.querySelector('.character-name');
+                const charNameA = (nameElA && nameElA.textContent) || '';
+                const charNameB = (nameElB && nameElB.textContent) || '';
+                const charA = characterData[charNameA];
+                const charB = characterData[charNameB];
+                
+                if (!charA || !charB) return 0;
+                
+                switch(sortBy) {
+                    case 'health':
+                        return (charB.health || 0) - (charA.health || 0);
+                    case 'archetype':
+                        return (charA.archetype || '').localeCompare(charB.archetype || '');
+                    case 'name':
+                    default:
+                        return charNameA.localeCompare(charNameB);
+                }
+            });
+            
+            // Re-append sorted cards
+            cards.forEach(card => container.appendChild(card));
         }
     </script>
 </body>

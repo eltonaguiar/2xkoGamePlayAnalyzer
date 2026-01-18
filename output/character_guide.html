@@ -507,7 +507,11 @@
         
         async function loadCharacter() {
             const select = document.getElementById('character-select');
-            const charName = select.value;
+            if (!select) {
+                console.error('character-select element not found');
+                return;
+            }
+            const charName = select.value || '';
             
             if (!charName) {
                 document.getElementById('content').innerHTML = `
@@ -598,6 +602,7 @@
         }
         
         function renderStrategies() {
+            if (!currentData || !currentData.strategies) return '';
             const strategies = currentData.strategies;
             let html = '<div class="section"><h2 class="section-title">🎯 Top 3 Strategies</h2>';
             
@@ -630,12 +635,14 @@
         }
         
         function renderMostUsedMoves() {
+            if (!currentData || !currentData.most_used_moves) return '';
             const mostUsed = currentData.most_used_moves;
             let html = '<div class="section"><h2 class="section-title">🔥 Most Frequently Used Moves</h2>';
             
             html += '<h3 style="color: #1e3c72; margin: 20px 0 10px;">In Neutral Game (Mid-Long Range):</h3>';
             html += '<div style="display: grid; gap: 15px;">';
-            mostUsed.neutral_game.forEach(move => {
+            if (mostUsed.neutral_game && Array.isArray(mostUsed.neutral_game)) {
+                mostUsed.neutral_game.forEach(move => {
                 html += `
                     <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 3px solid #3b82f6;">
                         <div style="font-weight: bold; font-size: 1.1em; margin-bottom: 5px;">${move.move}</div>
@@ -646,10 +653,12 @@
                 `;
             });
             html += '</div>';
+            }
             
             html += '<h3 style="color: #1e3c72; margin: 20px 0 10px;">In Pressure Game (Close Range):</h3>';
             html += '<div style="display: grid; gap: 15px;">';
-            mostUsed.pressure_game.forEach(move => {
+            if (mostUsed.pressure_game && Array.isArray(mostUsed.pressure_game)) {
+                mostUsed.pressure_game.forEach(move => {
                 html += `
                     <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; border-left: 3px solid #ef4444;">
                         <div style="font-weight: bold; font-size: 1.1em; margin-bottom: 5px;">${move.move}</div>
@@ -658,7 +667,8 @@
                         <div style="font-size: 0.9em; color: #666;">When: ${move.when_to_use}</div>
                     </div>
                 `;
-            });
+                });
+            }
             html += '</div>';
             
             html += '</div>';
@@ -666,27 +676,35 @@
         }
         
         function renderBasicMoves() {
+            if (!currentData || !currentData.moves || !currentData.moves.normals) return '';
             const moves = currentData.moves.normals;
             let html = '<div class="section"><h2 class="section-title">🥊 Basic Moves (Start Here!)</h2>';
             html += '<p style="margin-bottom: 20px; color: #666; font-style: italic;">Learn these fundamental moves before advanced combos</p>';
             
             // Standing normals
-            html += '<h3 style="margin: 20px 0 15px;">Standing Normals:</h3>';
-            html += renderMoveTable(moves.standing, 'standing');
+            if (moves.standing) {
+                html += '<h3 style="margin: 20px 0 15px;">Standing Normals:</h3>';
+                html += renderMoveTable(moves.standing, 'standing');
+            }
             
             // Crouching normals
-            html += '<h3 style="margin: 20px 0 15px;">Crouching Normals:</h3>';
-            html += renderMoveTable(moves.crouching, 'crouching');
+            if (moves.crouching) {
+                html += '<h3 style="margin: 20px 0 15px;">Crouching Normals:</h3>';
+                html += renderMoveTable(moves.crouching, 'crouching');
+            }
             
             // Jumping normals
-            html += '<h3 style="margin: 20px 0 15px;">Jumping Normals:</h3>';
-            html += renderMoveTable(moves.jumping, 'jumping');
+            if (moves.jumping) {
+                html += '<h3 style="margin: 20px 0 15px;">Jumping Normals:</h3>';
+                html += renderMoveTable(moves.jumping, 'jumping');
+            }
             
             html += '</div>';
             return html;
         }
         
         function renderSpecialMoves() {
+            if (!currentData || !currentData.moves || !currentData.moves.specials) return '';
             const specials = currentData.moves.specials;
             let html = '<div class="section"><h2 class="section-title">⚡ Special Moves</h2>';
             html += renderMoveTable(specials, 'specials');
@@ -761,6 +779,7 @@
         }
         
         function renderCombos() {
+            if (!currentData || !currentData.bnb_combos) return '';
             const combos = currentData.bnb_combos;
             let html = '<div class="section"><h2 class="section-title">💥 BnB Combos (Bread and Butter)</h2>';
             html += '<p style="margin-bottom: 20px; color: #666;">Learn in order: Start with ⭐ combos, progress to ⭐⭐⭐⭐</p>';
@@ -810,6 +829,7 @@
         }
         
         function renderMatchups() {
+            if (!currentData || !currentData.matchups) return '';
             const matchups = currentData.matchups;
             let html = '<div class="section"><h2 class="section-title">⚔️ Matchup Guide</h2>';
             
