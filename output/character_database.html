@@ -910,7 +910,7 @@
                         <span class="stat-label">Playstyle:</span>
                         <span class="stat-value">${playstyle}</span>
                     </div>
-                    <button class="export-btn" onclick="exportCharacterData('${charName}')" aria-label="Export data for ${charName}" style="margin-top: 10px; padding: 8px 16px; background: #10b981; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 0.9em; width: 100%;">📥 Export Data</button>
+                    <button class="export-btn" onclick="if(typeof exportCharacterData==='function'){exportCharacterData('${charName.replace(/'/g, "\\'")}');}" aria-label="Export data for ${charName}" style="margin-top: 10px; padding: 8px 16px; background: #10b981; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 0.9em; width: 100%;">📥 Export Data</button>
                 `;
                 fragment.appendChild(card);
             }
