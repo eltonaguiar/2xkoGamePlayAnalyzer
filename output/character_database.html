@@ -999,8 +999,9 @@
             if (!allMoves || allMoves.length === 0) {
                 html += '<tr><td colspan="9" style="text-align: center; padding: 40px; color: #999;">No moves found. Make sure character_database.json exists and run: <code>python generate_database.py</code></td></tr>';
             } else {
-                allMoves.forEach(move => {
-                    if (!move) return; // Skip null/undefined moves
+                for (let i = 0; i < allMoves.length; i++) {
+                    const move = allMoves[i];
+                    if (!move) continue; // Skip null/undefined moves
                     const safetyClass = move.on_block > 0 ? 'safety-safe' : 
                                        move.on_block < -5 ? 'safety-unsafe' : 'safety-neutral';
                     const riskClass = `risk-${move.risk_level || 'medium'}`;
@@ -1020,7 +1021,7 @@
                     if (move.is_gap_closer) html += '<span class="badge" style="background: #d1fae5; color: #065f46;">Gap Closer</span>';
                     html += `</td>`;
                     html += '</tr>';
-                });
+                }
             }
             
             html += '</tbody></table>';
@@ -1295,7 +1296,9 @@
                             <tbody>
                 `;
                 
-                fastestInGame.forEach((move, index) => {
+                for (let index = 0; index < fastestInGame.length; index++) {
+                    const move = fastestInGame[index];
+                    if (!move || typeof move !== 'object') continue;
                     const riskLevel = move.risk_level || 'medium';
                     const riskClass = riskLevel === 'low' ? 'risk-low' : 
                                     riskLevel === 'high' ? 'risk-high' : 'risk-medium';
@@ -1316,7 +1319,7 @@
                             <td><span class="badge ${riskClass}">${riskLevel.toUpperCase()}</span></td>
                         </tr>
                     `;
-                });
+                }
                 
                 html += `
                             </tbody>
@@ -1402,7 +1405,7 @@
                             </div>
                         </div>
                     `;
-                });
+                }
                 
                 html += '</div>';
                 container.innerHTML = html;
